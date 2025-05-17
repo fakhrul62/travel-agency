@@ -14,7 +14,7 @@ import {
 } from "@mui/material";
 import InboxIcon from "@mui/icons-material/Inbox";
 import MailIcon from "@mui/icons-material/Mail";
-import { NavItems } from "components";
+import { MobileSidebar, NavItems } from "components";
 const drawerWidth = 270;
 const AdminLayout = () => {
   // You can drop the styled wrapper if you don't need collapse/expand behavior
@@ -26,7 +26,7 @@ const AdminLayout = () => {
   }));
   return (
     <div className="admin-layout">
-      MobileSidebar
+      <MobileSidebar />
       <aside className="w-full max-w-[270px] hidden lg:block">
         <Drawer variant="permanent" anchor="left">
           <NavItems />
