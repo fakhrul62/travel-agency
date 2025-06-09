@@ -24,6 +24,7 @@
     "@syncfusion/ej2-react-maps": "^29.1.34",
     "@syncfusion/ej2-react-navigations": "^29.1.41",
     "@syncfusion/ej2-react-splitbuttons": "^29.1.33",
+    "appwrite": "^18.1.1",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "dayjs": "^1.11.13",
