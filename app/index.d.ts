@@ -78,16 +78,17 @@ declare interface TripCardProps {
   id: string;
   name: string;
   location: string;
-  imageUrl: string;
+  imageUrls: string;
+  travelStyle: string;
   tags: string[];
-  price: string;
+  estimatedPrice: string;
 }
 
 declare interface StatsCard {
   headerTitle: string;
   total: number;
-  lastMonthCount: number;
-  currentMonthCount: number;
+  lastMonth: number;
+  currentMonth: number;
 }
 
 declare interface TrendResult {
