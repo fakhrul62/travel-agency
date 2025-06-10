@@ -91,6 +91,14 @@ declare interface StatsCard {
   currentMonth: number;
 }
 
+declare interface UserInfo {
+  email: string;
+  password: string;
+  name: string;
+  joinedAt: string;
+  accountId: string;
+}
+
 declare interface TrendResult {
   trend: "increment" | "decrement" | "no change";
   percentage: number;

@@ -8,7 +8,10 @@ import {
 } from "react-router";
 
 import type { Route } from "./+types/root";
-import "./app.css";
+import "./app.css";// Add this import
+
+// Import React Query components
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -24,7 +27,10 @@ export const links: Route.LinksFunction = () => [
 ];
 
 import { registerLicense } from "@syncfusion/ej2-base"; 
-registerLicense(import.meta.env.VITE_SYNCFUSION_API_KEY); // Register Syncfusion license key
+import AuthProvider from "../src/provider/AuthProvider"; // Register Syncfusion license key
+
+// Create a client
+const queryClient = new QueryClient();
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
@@ -36,7 +42,11 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body>
-        {children}
+        <QueryClientProvider client={queryClient}>
+          <AuthProvider>
+            {children}
+          </AuthProvider>
+        </QueryClientProvider>
         <ScrollRestoration />
         <Scripts />
       </body>

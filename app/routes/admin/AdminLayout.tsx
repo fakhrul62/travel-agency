@@ -1,29 +1,20 @@
-import React from "react";
-import { Outlet } from "react-router";
-import { styled, useTheme } from "@mui/material/styles";
-import {
-  Box,
-  CssBaseline,
-  Drawer as MuiDrawer,
-  Toolbar,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-  Divider,
-} from "@mui/material";
-import InboxIcon from "@mui/icons-material/Inbox";
-import MailIcon from "@mui/icons-material/Mail";
+import { Outlet, redirect } from "react-router";
+import { styled } from "@mui/material/styles";
+import { Drawer as MuiDrawer } from "@mui/material";
 import { MobileSidebar, NavItems } from "components";
+
 const drawerWidth = 270;
+
+
+
 const AdminLayout = () => {
-  // You can drop the styled wrapper if you don't need collapse/expand behavior
   const Drawer = styled(MuiDrawer)(({ theme }) => ({
     "& .MuiDrawer-paper": {
       width: drawerWidth,
       boxSizing: "border-box",
     },
   }));
+
   return (
     <div className="admin-layout">
       <MobileSidebar />

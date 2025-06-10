@@ -1,7 +1,24 @@
 import { Header, StatsCard, TripCard } from "components";
+import useAdmin from "src/hook/useAdmin";
+import { Navigate } from "react-router";
 import { dashboardData, allTrips, user } from "~/constants";
 
 const Dashboard = () => {
+  const [isAdmin, isAdminLoading] = useAdmin();
+  
+  // Show loading state while checking admin status
+  if (isAdminLoading) {
+    return <div className="flex justify-center items-center min-h-screen">
+      <img src="/assets/icons/loader.svg" alt="Loading" className="w-12 h-12 animate-spin" />
+    </div>;
+  }
+  
+  // Redirect non-admin users
+  if (!isAdmin) {
+    console.log("Not an admin, redirecting to home page...");
+    return <Navigate to="/" replace />;
+  }
+
   const {
     totalUsers,
     usersJoined,
@@ -10,6 +27,7 @@ const Dashboard = () => {
     userRole,
     activeUsers,
   } = dashboardData;
+    
   return (
     <main className="dashboard wrapper">
       <Header
