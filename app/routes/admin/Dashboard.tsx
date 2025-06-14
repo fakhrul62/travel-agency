@@ -2,9 +2,11 @@ import { Header, StatsCard, TripCard } from "components";
 import useAdmin from "src/hook/useAdmin";
 import { Navigate } from "react-router";
 import { dashboardData, allTrips, user } from "~/constants";
+import useAuth from "src/hook/useAuth";
 
 const Dashboard = () => {
   const [isAdmin, isAdminLoading] = useAdmin();
+  const {user} = useAuth();
   
   // Show loading state while checking admin status
   if (isAdminLoading) {
@@ -14,7 +16,7 @@ const Dashboard = () => {
   }
   
   // Redirect non-admin users
-  if (!isAdmin) {
+  if (!isAdmin || !user) {
     console.log("Not an admin, redirecting to home page...");
     return <Navigate to="/" replace />;
   }
@@ -31,7 +33,7 @@ const Dashboard = () => {
   return (
     <main className="dashboard wrapper">
       <Header
-        title={`Welcome ${user ? user.name : "Guest"}!`}
+        title={`Welcome ${user ? user.displayName || user.email : 'John Doe'}!`}
         subtitle={`Organize activities and famous destinations now`}
       />
       <section className="flex flex-col gap-6">

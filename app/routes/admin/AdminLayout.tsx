@@ -5,9 +5,8 @@ import { MobileSidebar, NavItems } from "components";
 
 const drawerWidth = 270;
 
-
-
 const AdminLayout = () => {
+  
   const Drawer = styled(MuiDrawer)(({ theme }) => ({
     "& .MuiDrawer-paper": {
       width: drawerWidth,
