@@ -43,6 +43,7 @@ const SignIn = () => {
             password: "123456",
             photoURL: result.user.photoURL,
             role: "user",
+            tripCreated: "0",
             joinedAt: time.toLocaleString("en-US", {
               weekday: "long",
               year: "numeric",

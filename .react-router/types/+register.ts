@@ -11,4 +11,6 @@ type Params = {
   "/sign-in": {};
   "/dashboard": {};
   "/all-users": {};
+  "/trips": {};
+  "/trips/create": {};
 };
