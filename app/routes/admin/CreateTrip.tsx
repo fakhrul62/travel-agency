@@ -13,6 +13,27 @@ import type { Route } from "./+types/CreateTrip";
 import { comboBoxItems, selectItems } from "~/constants";
 import { cn, formatKey } from "~/lib/utils";
 import useAuth from "src/hook/useAuth";
+import useAxiosPublic from "src/hook/useAxiosPublic";
+import { useNavigate } from "react-router";
+import { generateTrip } from "app/routes/api/CreateTrip";
+
+type Country = {
+  name: string;
+  coordinates: [number, number];
+  value: string;
+  openStreetMap?: string;
+  flag: string;
+};
+
+type TripFormData = {
+  country: string;
+  travelStyle: string;
+  interest: string;
+  budget: string;
+  duration: number;
+  groupType: string;
+  [key: string]: string | number;
+};
 
 export const loader = async () => {
   const res = await fetch(
@@ -33,6 +54,8 @@ const CreateTrip = ({ loaderData }: Route.ComponentProps) => {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const { user } = useAuth(); // Move this to the top level of the component
+  const axiosPublic = useAxiosPublic();
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState<TripFormData>({
     country: countries[0]?.name || "",
@@ -59,9 +82,11 @@ const CreateTrip = ({ loaderData }: Route.ComponentProps) => {
     }));
   };
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setLoading(true);
+    setError(null);
+
     if (
       !formData.country ||
       !formData.duration ||
@@ -74,6 +99,7 @@ const CreateTrip = ({ loaderData }: Route.ComponentProps) => {
       setLoading(false);
       return;
     }
+
     if (formData.duration < 1 || formData.duration > 10) {
       setError("Duration must be between 1 and 10 days.");
       setLoading(false);
@@ -87,15 +113,27 @@ const CreateTrip = ({ loaderData }: Route.ComponentProps) => {
     }
 
     try {
-      // Combine selectedCountry with the rest of the form data
-      console.log(user);
-      const completeFormData: Partial<TripFormData> = {
-        ...formData,
-        country: selectedCountry?.name || "",
+      const tripData = {
+        country: selectedCountry?.name || formData.country,
+        duration: formData.duration,
+        groupType: formData.groupType,
+        travelStyle: formData.travelStyle,
+        interest: formData.interest,
+        budget: formData.budget,
+        user,
       };
-      console.log("Form submitted:", completeFormData);
+
+      const response = await generateTrip(tripData);
+      console.log("Trip created successfully:", response);
+
+      if (response?.insertedId) {
+        navigate(`/trips/${response.insertedId}`);
+      } else {
+        throw new Error("Trip ID missing in response.");
+      }
     } catch (error) {
-      console.log("Error generating trip:", error);
+      console.error("Error creating trip:", error);
+      setError("Failed to create trip. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -106,6 +144,23 @@ const CreateTrip = ({ loaderData }: Route.ComponentProps) => {
       : countries.filter((country) => {
           return country.name.toLowerCase().includes(query.toLowerCase());
         });
+
+  const getTripById = async (id: string) => {
+    try {
+      const res = await axiosPublic.get(`/trips/${id}`);
+      if (res.data.success) {
+        console.log("Trip retrieved successfully:", res.data.trip);
+        return res.data.trip;
+      } else {
+        console.error("Failed to retrieve trip:", res.data.message);
+      }
+    } catch (error: any) {
+      console.error(
+        "Error retrieving trip:",
+        error.response?.data?.message || error.message
+      );
+    }
+  };
 
   return (
     <main className="wrapper flex flex-col gap-10 pb-20">

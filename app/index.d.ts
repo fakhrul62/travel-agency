@@ -10,7 +10,7 @@ declare interface UserData extends BaseUser {
   itineraryCreated: number | string;
   status: "user" | "admin";
   user: any;
-  _id: any;
+  _id: string;
   photoURL: any;
   tripCreated: number | string;
   email: string;
@@ -102,6 +102,7 @@ declare interface StatsCard {
 
 declare interface UserInfo {
   email: string;
+  _id: any;
   password: string;
   name: string;
   joinedAt: string;

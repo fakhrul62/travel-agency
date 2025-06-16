@@ -15,6 +15,7 @@ import auth from "./firebase";
 interface UserInfo {
   email: string;
   password: string;
+  _id : string;
 }
 
 // Define auth context type
@@ -45,6 +46,19 @@ export const createUser = ({ email, password }: UserInfo) => {
 // Sign in user
 export const signInUser = ({ email, password }: UserInfo) => {
   return signInWithEmailAndPassword(auth, email, password);
+};
+// Create trip
+// Note: This should probably be in a separate TripService or TripProvider
+export const createTrip = (tripData: any) => {
+  // This is a placeholder implementation
+  // You would typically use Firebase Firestore or another database service
+  console.log("Creating trip with data:", tripData);
+  
+  // Example implementation using Firestore (you'll need to import the Firestore functions)
+  // return addDoc(collection(db, "trips"), tripData);
+  
+  // For now, just return a mock promise
+  return Promise.resolve({ id: "trip-" + Date.now(), ...tripData });
 };
 
 export const logOut = () => {

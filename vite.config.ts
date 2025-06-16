@@ -7,5 +7,8 @@ export default defineConfig({
   plugins: [tailwindcss(), reactRouter(), tsconfigPaths()],
   ssr: {
     noExternal: []
-  }
+  },
+  optimizeDeps: {
+    include: ['@google/generative-ai'],
+  },
 });
