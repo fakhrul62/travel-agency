@@ -36,9 +36,7 @@ type TripFormData = {
 };
 
 export const loader = async () => {
-  const res = await fetch(
-    "https://restcountries.com/v3.1/independent?status=true"
-  );
+  const res = await fetch("https://restcountries.com/v3.1/independent?status=true");
   const data = await res.json();
   return data.map((country: any) => ({
     name: country.name.common,
@@ -53,7 +51,7 @@ const CreateTrip = ({ loaderData }: Route.ComponentProps) => {
   const countries = loaderData as Country[];
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
-  const { user } = useAuth(); // Move this to the top level of the component
+  const { user } = useAuth();
   const axiosPublic = useAxiosPublic();
   const navigate = useNavigate();
 
@@ -120,11 +118,12 @@ const CreateTrip = ({ loaderData }: Route.ComponentProps) => {
         travelStyle: formData.travelStyle,
         interest: formData.interest,
         budget: formData.budget,
-        user,
+        user, // ✅ pass full user object
       };
 
+      console.log("📦 Sending trip data:", tripData);
       const response = await generateTrip(tripData);
-      console.log("Trip created successfully:", response);
+      console.log("✅ Trip created:", response);
 
       if (response?.insertedId) {
         navigate(`/trips/${response.insertedId}`);
@@ -132,45 +131,25 @@ const CreateTrip = ({ loaderData }: Route.ComponentProps) => {
         throw new Error("Trip ID missing in response.");
       }
     } catch (error) {
-      console.error("Error creating trip:", error);
+      console.error("❌ Error creating trip:", error);
       setError("Failed to create trip. Please try again.");
     } finally {
       setLoading(false);
     }
   };
+
   const filteredCountry =
     query === ""
       ? countries
-      : countries.filter((country) => {
-          return country.name.toLowerCase().includes(query.toLowerCase());
-        });
-
-  const getTripById = async (id: string) => {
-    try {
-      const res = await axiosPublic.get(`/trips/${id}`);
-      if (res.data.success) {
-        console.log("Trip retrieved successfully:", res.data.trip);
-        return res.data.trip;
-      } else {
-        console.error("Failed to retrieve trip:", res.data.message);
-      }
-    } catch (error: any) {
-      console.error(
-        "Error retrieving trip:",
-        error.response?.data?.message || error.message
-      );
-    }
-  };
+      : countries.filter((country) =>
+          country.name.toLowerCase().includes(query.toLowerCase())
+        );
 
   return (
     <main className="wrapper flex flex-col gap-10 pb-20">
-      <Header
-        title={`Add a new trip`}
-        subtitle={`View and Edit AI-generated travel plans`}
-      />
+      <Header title="Add a new trip" subtitle="View and Edit AI-generated travel plans" />
       <section className="mt-2.5 wrapper-md">
         <form className="trip-form" onSubmit={handleSubmit}>
-          {" "}
           <div>
             <label htmlFor="country">Country</label>
             <div className="!p-0">
@@ -181,7 +160,7 @@ const CreateTrip = ({ loaderData }: Route.ComponentProps) => {
               >
                 <div className="relative w-full !p-0">
                   <div className="relative flex items-center !p-0">
-                    {selectedCountry && selectedCountry.flag && (
+                    {selectedCountry?.flag && (
                       <img
                         src={selectedCountry.flag}
                         alt={`${selectedCountry.name} flag`}
@@ -191,9 +170,7 @@ const CreateTrip = ({ loaderData }: Route.ComponentProps) => {
                     <ComboboxInput
                       className={clsx(
                         "!w-full p-3.5",
-                        selectedCountry && selectedCountry.flag
-                          ? "pl-10"
-                          : "pl-3",
+                        selectedCountry?.flag ? "pl-10" : "pl-3",
                         "text-base text-black",
                         "border border-light-400 rounded-xl text-dark-300 font-normal"
                       )}
@@ -207,7 +184,6 @@ const CreateTrip = ({ loaderData }: Route.ComponentProps) => {
                     </ComboboxButton>
                   </div>
                 </div>
-
                 <ComboboxOptions
                   anchor="bottom"
                   transition
@@ -245,6 +221,7 @@ const CreateTrip = ({ loaderData }: Route.ComponentProps) => {
               </Combobox>
             </div>
           </div>
+
           <div>
             <label htmlFor="duration">Duration</label>
             <input
@@ -256,11 +233,11 @@ const CreateTrip = ({ loaderData }: Route.ComponentProps) => {
               onChange={(e) => handleChange("duration", Number(e.target.value))}
             />
           </div>
+
           {selectItems.map((item) => (
             <div key={item}>
               <label htmlFor={item}>{formatKey(item)}</label>
               <div className="!p-0">
-                {" "}
                 <Combobox
                   value={(formData[item] as string) || ""}
                   onChange={(value) => handleChange(item, value)}
@@ -321,8 +298,10 @@ const CreateTrip = ({ loaderData }: Route.ComponentProps) => {
                 </Combobox>
               </div>
             </div>
-          ))}{" "}
+          ))}
+
           {error && <div className="text-red-500 text-sm mt-2">{error}</div>}
+
           <footer className="px-6 w-full">
             <button
               className="button-class w-full mt-4 bg-blue-600 text-white py-3 rounded-xl hover:bg-blue-700 transition-colors"
@@ -330,12 +309,10 @@ const CreateTrip = ({ loaderData }: Route.ComponentProps) => {
               disabled={loading}
             >
               <img
-                src={`/assets/icons/${
-                  loading ? "loader.svg" : "magic-star.svg"
-                }`}
+                src={`/assets/icons/${loading ? "loader.svg" : "magic-star.svg"}`}
                 className={cn("size-5", { "animate-spin": loading })}
                 alt="submit"
-              />{" "}
+              />
               Generating Trip
             </button>
           </footer>

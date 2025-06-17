@@ -2,7 +2,7 @@ import type { ActionFunctionArgs } from "react-router";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import axios from "axios";
 
-// 🔧 Updated parser for Gemini output
+// 🔧 Parser for Gemini's Markdown-wrapped JSON
 function parseMarkdownToJson(markdown: string): any {
   try {
     const match = markdown.match(/```(?:json)?\n([\s\S]*?)```/i);
@@ -78,28 +78,32 @@ NO markdown, no explanation. Return only pure JSON.`;
       throw new Error("Invalid trip format");
     }
 
+    const unsplashQuery = encodeURIComponent(
+      `${country} ${interest} ${travelStyle}`
+    );
     const imageResponse = await fetch(
-      `https://api.unsplash.com/search/photos?query=${country}${interest}${travelStyle}&client_id=${unsplashApiKey}`
+      `https://api.unsplash.com/search/photos?query=${unsplashQuery}&client_id=${unsplashApiKey}`
     );
     const imageData = await imageResponse.json();
+    console.log("🖼️ Unsplash API result:", imageData);
+
     const imageUrls = imageData.results
-      .slice(0, 3)
+      ?.slice(0, 3)
       .map((img: any) => img.urls?.regular)
-      .filter(Boolean);
+      .filter((url: string) => url && url.trim() !== "");
 
     const tripData = {
       ...trip,
-      imageUrls,
+      imageUrls: imageUrls.length > 0 ? imageUrls : ["default-image-url"],
       travelStyle,
       interest,
       groupType,
       budget,
       createdAt: new Date().toISOString(),
-      userId: user?._id || null,
+      userId: user?.email || "unknown-user",
     };
 
-    const response = await axios.post(`${API_URL}/trips`, tripData);
-    return response.data;
+    return tripData;
   } catch (error) {
     console.error("❌ Error generating travel plan:", error);
     throw error;
@@ -115,12 +119,41 @@ export const generateTrip = async (tripData: any) => {
   const API_URL = import.meta.env.VITE_API_URL;
 
   try {
-    const prompt = `Return ONLY a valid JSON object with this exact structure:
+    const prompt = `Generate a ${duration}-day travel itinerary for ${country} based on the following user information:
+Budget: '${budget}'
+Interests: '${interest}'
+TravelStyle: '${travelStyle}'
+GroupType: '${groupType}'
+Return only valid JSON with this format:
 {
-  "name": "Trip Title",
-  ...
-} 
-NO markdown. NO explanation.`;
+  "name": "A descriptive title for the trip",
+  "description": "A brief description...",
+  "estimatedPrice": "Lowest average price...",
+  "duration": ${duration},
+  "budget": "${budget}",
+  "travelStyle": "${travelStyle}",
+  "country": "${country}",
+  "interests": "${interest}",
+  "groupType": "${groupType}",
+  "bestTimeToVisit": [...],
+  "weatherInfo": [...],
+  "location": {
+    "city": "Name",
+    "coordinates": [latitude, longitude],
+    "openStreetMap": "link"
+  },
+  "itinerary": [
+    {
+      "day": 1,
+      "location": "City",
+      "activities": [
+        {"time": "Morning", "description": "..."},
+        {"time": "Afternoon", "description": "..."},
+        {"time": "Evening", "description": "..."}
+      ]
+    }
+  ]
+}`;
 
     const textResult = await genAI
       .getGenerativeModel({ model: "gemini-2.0-flash" })
@@ -134,27 +167,35 @@ NO markdown. NO explanation.`;
       throw new Error("Invalid trip format");
     }
 
+    const unsplashQuery = encodeURIComponent(
+      `${country} ${interest} ${travelStyle}`
+    );
     const imageResponse = await fetch(
-      `https://api.unsplash.com/search/photos?query=${country}${interest}${travelStyle}&client_id=${unsplashApiKey}`
+      `https://api.unsplash.com/search/photos?query=${unsplashQuery}&client_id=${unsplashApiKey}`
     );
     const imageData = await imageResponse.json();
+    console.log("🖼️ Unsplash API result:", imageData);
+
     const imageUrls = imageData.results
-      .slice(0, 3)
+      ?.slice(0, 3)
       .map((img: any) => img.urls?.regular)
-      .filter(Boolean);
+      .filter((url: string) => url && url.trim() !== "");
 
     const completeTripData = {
       ...trip,
-      imageUrls,
+      imageUrls: imageUrls.length > 0 ? imageUrls : ["default-image-url"],
       travelStyle,
       interest,
       groupType,
       budget,
       createdAt: new Date().toISOString(),
-      userId: user?._id || null,
+      userId: user?.email || "unknown-user",
     };
 
+    console.log("🧾 Final Trip Payload:", completeTripData);
+
     const response = await axios.post(`${API_URL}/trips`, completeTripData);
+    console.log("✅ Trip POST Response:", response.data);
     return response.data;
   } catch (error) {
     console.error("❌ Error generating travel plan:", error);
