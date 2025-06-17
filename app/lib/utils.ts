@@ -27,6 +27,11 @@ export function parseMarkdownToJson(markdownText: string): unknown | null {
 }
 
 export function parseTripData(jsonString: string): Trip | null {
+  if (!jsonString || typeof jsonString !== "string") {
+    console.error("Invalid input for parsing trip data:", jsonString);
+    return null;
+  }
+
   try {
     const data: Trip = JSON.parse(jsonString);
 

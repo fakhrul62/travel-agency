@@ -33,7 +33,7 @@ const NavItems = () => {
           ))}
         </nav>
         <footer className="nav-footer">
-          <img src={user && user.photoURL || '/assets/images/david.webp'} alt={user && user.displayName || 'John Doe'} referrerPolicy="no-referrer" />
+          <img className="border border-zinc-300" src={user && user.photoURL || '/assets/images/david.webp'} alt={user && user.displayName || 'John Doe'} referrerPolicy="no-referrer" />
           <article>
             <h2>{user?.displayName}</h2>
             <p>{user?.email}</p>

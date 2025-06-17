@@ -128,7 +128,7 @@ Return only valid JSON with this format:
 {
   "name": "A descriptive title for the trip",
   "description": "A brief description...",
-  "estimatedPrice": "Lowest average price...",
+  "estimatedPrice": "Lowest average price... (just give me the the lowest number with $ sign)",
   "duration": ${duration},
   "budget": "${budget}",
   "travelStyle": "${travelStyle}",
@@ -155,10 +155,21 @@ Return only valid JSON with this format:
   ]
 }`;
 
-    const textResult = await genAI
-      .getGenerativeModel({ model: "gemini-2.0-flash" })
-      .generateContent([prompt]);
+    // Run AI and image fetch requests in parallel
+    const unsplashQuery = encodeURIComponent(
+      `${country} ${interest} ${travelStyle}`
+    );
 
+    const [textResult, imageResponse] = await Promise.all([
+      genAI
+        .getGenerativeModel({ model: "gemini-2.0-flash" })
+        .generateContent([prompt]),
+      fetch(
+        `https://api.unsplash.com/search/photos?query=${unsplashQuery}&client_id=${unsplashApiKey}`
+      ),
+    ]);
+
+    // Process results
     const raw = textResult.response.text();
     console.log("🔍 Gemini Raw Output:", raw);
 
@@ -167,12 +178,6 @@ Return only valid JSON with this format:
       throw new Error("Invalid trip format");
     }
 
-    const unsplashQuery = encodeURIComponent(
-      `${country} ${interest} ${travelStyle}`
-    );
-    const imageResponse = await fetch(
-      `https://api.unsplash.com/search/photos?query=${unsplashQuery}&client_id=${unsplashApiKey}`
-    );
     const imageData = await imageResponse.json();
     console.log("🖼️ Unsplash API result:", imageData);
 
