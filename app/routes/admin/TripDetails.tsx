@@ -33,6 +33,11 @@ const TripDetails = ({ loaderData }: Route.ComponentProps) => {
     imageUrls,
   } = tripData || {};
 
+  const visitTimeAndWeatherTime = [
+    {title: "Best Time to Visit: ", items: bestTimeToVisit},
+    {title: "Weather Info: ", items: weatherInfo},
+  ]
+
   return (
     <main className="travel-detail wrapper">
       <Header
@@ -51,7 +56,7 @@ const TripDetails = ({ loaderData }: Route.ComponentProps) => {
             <InfoPill
               text={`${
                 itinerary
-                  ?.slice(0, 2)
+                  ?.slice(0, 4)
                   .map((item) => item.location)
                   .join(", ") || ""
               }`}
@@ -113,6 +118,42 @@ const TripDetails = ({ loaderData }: Route.ComponentProps) => {
               </article>
               <h2 className="!text-sm md:!text-xl !font-normal !text-dark-100">{estimatedPrice}</h2>
         </section>
+        <p className="text-sm md:text-lg font-normal text-dark-400">{description}</p>
+        <ul className="itinerary">
+          {itinerary?.map((day, index)=> (
+            <li key={index}>
+              <h3>
+                Day {day.day}: {day.location}
+              </h3>
+              <ul className="">
+                {day.activities.map((activity, index)=>(
+                  <li key={index}>
+                    <span className="flex-shrink-0 p-18-semibold">{activity.time}</span>
+                    <p className="flex-grow">{activity.description}</p>
+                  </li>
+                ))}
+              </ul>
+            </li>
+          ))}
+        </ul>
+          {visitTimeAndWeatherTime.map((section, index)=>(
+            <section key={index} className="visit">
+              <div>
+                <h3>
+                  {section.title}
+                </h3>
+                <ul>
+                  {section.items?.map((item)=>(
+                    <li key={item}>
+                      <p className="flex-grow">
+                        {item}
+                      </p>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </section>
+          ))}
       </section>
     </main>
   );

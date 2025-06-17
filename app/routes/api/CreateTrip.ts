@@ -111,6 +111,7 @@ NO markdown, no explanation. Return only pure JSON.`;
 };
 
 export const generateTrip = async (tripData: any) => {
+
   const { country, duration, travelStyle, interest, budget, groupType, user } =
     tripData;
 
@@ -120,40 +121,50 @@ export const generateTrip = async (tripData: any) => {
 
   try {
     const prompt = `Generate a ${duration}-day travel itinerary for ${country} based on the following user information:
-Budget: '${budget}'
-Interests: '${interest}'
-TravelStyle: '${travelStyle}'
-GroupType: '${groupType}'
-Return only valid JSON with this format:
-{
-  "name": "A descriptive title for the trip",
-  "description": "A brief description...",
-  "estimatedPrice": "Lowest average price... (just give me the the lowest number with $ sign)",
-  "duration": ${duration},
-  "budget": "${budget}",
-  "travelStyle": "${travelStyle}",
-  "country": "${country}",
-  "interests": "${interest}",
-  "groupType": "${groupType}",
-  "bestTimeToVisit": [...],
-  "weatherInfo": [...],
-  "location": {
-    "city": "Name",
-    "coordinates": [latitude, longitude],
-    "openStreetMap": "link"
-  },
-  "itinerary": [
+    Budget: '${budget}'
+    Interests: '${interest}'
+    TravelStyle: '${travelStyle}'
+    GroupType: '${groupType}'
+    Return the itinerary and lowest estimated price in a clean, non-markdown JSON format with the following structure:
+    {
+    "name": "A descriptive title for the trip",
+    "description": "A brief description of the trip and its highlights not exceeding 100 words",
+    "estimatedPrice": "Lowest average price for the trip in USD, e.g.$price, include also the living and eating and transportation costs",
+    "duration": ${duration},
+    "budget": "${budget}",
+    "travelStyle": "${travelStyle}",
+    "country": "${country}",
+    "interests": ${interest},
+    "groupType": "${groupType}",
+    "bestTimeToVisit": [
+      '🌸 Season (from month to month): reason to visit',
+      '☀️ Season (from month to month): reason to visit',
+      '🍁 Season (from month to month): reason to visit',
+      '❄️ Season (from month to month): reason to visit'
+    ],
+    "weatherInfo": [
+      '☀️ Season: temperature range in Celsius (temperature range in Fahrenheit)',
+      '🌦️ Season: temperature range in Celsius (temperature range in Fahrenheit)',
+      '🌧️ Season: temperature range in Celsius (temperature range in Fahrenheit)',
+      '❄️ Season: temperature range in Celsius (temperature range in Fahrenheit)'
+    ],
+    "location": {
+      "city": "name of the city or region",
+      "coordinates": [latitude, longitude],
+      "openStreetMap": "link to open street map"
+    },
+    "itinerary": [
     {
       "day": 1,
-      "location": "City",
+      "location": "City/Region Name",
       "activities": [
-        {"time": "Morning", "description": "..."},
-        {"time": "Afternoon", "description": "..."},
-        {"time": "Evening", "description": "..."}
+        {"time": "Morning", "description": "🏰 Visit the local historic castle and enjoy a scenic walk"},
+        {"time": "Afternoon", "description": "🖼️ Explore a famous art museum with a guided tour"},
+        {"time": "Evening", "description": "🍷 Dine at a rooftop restaurant with local wine"}
       ]
     }
-  ]
-}`;
+    ]
+    }`;
 
     // Run AI and image fetch requests in parallel
     const unsplashQuery = encodeURIComponent(

@@ -189,7 +189,7 @@ const CreateTrip = ({ loaderData }: Route.ComponentProps) => {
                   transition
                   className={clsx(
                     "w-(--input-width) rounded-xl border border-gray-300 bg-white p-1 [--anchor-gap:--spacing(1)] empty:invisible",
-                    "transition duration-100 ease-in data-leave:data-closed:opacity-0"
+                    "transition duration-100 ease-in data-leave:data-closed:opacity-0 shadow-dark-100"
                   )}
                 >
                   {filteredCountry.length === 0 && query !== "" ? (
@@ -201,7 +201,7 @@ const CreateTrip = ({ loaderData }: Route.ComponentProps) => {
                       <ComboboxOption
                         key={country.value}
                         value={country}
-                        className="group flex cursor-default items-center gap-2 rounded-lg px-3 py-1.5 select-none data-focus:bg-gray-100"
+                        className="group flex cursor-default items-center gap-2 shadow-dark-100 rounded-lg px-3 py-1.5 select-none data-focus:bg-gray-100"
                       >
                         <CheckIcon className="invisible size-4 fill-black group-data-selected:visible" />
                         <div className="text-sm/6 text-black flex items-center gap-2">
