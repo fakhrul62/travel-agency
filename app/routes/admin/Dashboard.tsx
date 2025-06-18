@@ -3,10 +3,31 @@ import useAdmin from "src/hook/useAdmin";
 import { Navigate } from "react-router";
 import { dashboardData, allTrips, user } from "~/constants";
 import useAuth from "src/hook/useAuth";
+import { getUsersAndTripsStats } from "../api/Dashboard";
+import type { Route } from "./+types/Dashboard";
 
-const Dashboard = () => {
+export const clientLoader = async () => {
+  const [dashboardStats] = await Promise.all([
+    getUsersAndTripsStats(),
+  ])
+
+  return { dashboardStats};
+}
+
+const Dashboard = ({loaderData}: Route.ComponentProps) => {
   const [isAdmin, isAdminLoading] = useAdmin();
   const {user} = useAuth();
+  // Use dashboardStats from loaderData, fallback to default if missing or missing keys
+  const defaultStats = {
+    totalUsers: 0,
+    usersJoined: { currentMonth: 0, lastMonth: 0 },
+    totalTrips: 0,
+    tripsCreated: { currentMonth: 0, lastMonth: 0 },
+    userRole: { total: 0, currentMonth: 0, lastMonth: 0 },
+    activeUsers: 0,
+  };
+  const dashboardStats = { ...defaultStats, ...(loaderData?.dashboardStats || loaderData || {}) };
+
   
   // Show loading state while checking admin status
   if (isAdminLoading) {
@@ -21,15 +42,6 @@ const Dashboard = () => {
     return <Navigate to="/" replace />;
   }
 
-  const {
-    totalUsers,
-    usersJoined,
-    totalTrips,
-    tripsCreated,
-    userRole,
-    activeUsers,
-  } = dashboardData;
-    
   return (
     <main className="dashboard wrapper">
       <Header
@@ -40,21 +52,21 @@ const Dashboard = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full">
           <StatsCard
             headerTitle="Total Users"
-            total={totalUsers}
-            currentMonth={usersJoined.currentMonth}
-            lastMonth={usersJoined.lastMonth}
+            total={dashboardStats.totalUsers}
+            currentMonth={dashboardStats.usersJoined.currentMonth}
+            lastMonth={dashboardStats.usersJoined.lastMonth}
           />
           <StatsCard
             headerTitle="Total Trips"
-            total={totalTrips}
-            currentMonth={tripsCreated.currentMonth}
-            lastMonth={tripsCreated.lastMonth}
+            total={dashboardStats.totalTrips}
+            currentMonth={dashboardStats.tripsCreated.currentMonth}
+            lastMonth={dashboardStats.tripsCreated.lastMonth}
           />
           <StatsCard
             headerTitle="Active Users"
-            total={activeUsers}
-            currentMonth={userRole.currentMonth}
-            lastMonth={userRole.lastMonth}
+            total={dashboardStats.userRole.total}
+            currentMonth={dashboardStats.userRole.currentMonth}
+            lastMonth={dashboardStats.userRole.lastMonth}
           />
         </div>
       </section>

@@ -15,7 +15,7 @@ const TripCard = ({
       to={
         path.pathname === "/" || path.pathname.startsWith("/travel")
           ? `/travel/${id}`
-          : `/trips/${id}`
+          : `/all-trips/${id}`
       }
       className="trip-card"
     >

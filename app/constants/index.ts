@@ -8,12 +8,6 @@ export const sidebarItems = [
     href: "/dashboard",
   },
   {
-    id: 2,
-    icon: "/assets/icons/users.svg",
-    label: "Trips",
-    href: "/trips",
-  },
-  {
     id: 3,
     icon: "/assets/icons/users.svg",
     label: "All Users",
@@ -23,7 +17,7 @@ export const sidebarItems = [
     id: 4,
     icon: "/assets/icons/itinerary.svg",
     label: "AI Trips",
-    href: "/trips/create",
+    href: "/all-trips",
   },
 ];
 

@@ -12,7 +12,7 @@ type Params = {
   "/api/create-trip": {};
   "/dashboard": {};
   "/all-users": {};
-  "/trips": {};
+  "/all-trips": {};
   "/trips/create": {};
   "/trips/:tripId": {
     "tripId": string;

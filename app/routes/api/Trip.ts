@@ -1,7 +1,6 @@
-import useAxiosPublic from "src/hook/useAxiosPublic";
+import axiosPublic from "src/lib/axiosPublic";
 
 export const getAllTrips = async () => {
-  const axiosPublic = useAxiosPublic();
   try {
     const response = await axiosPublic.get("/trips");
     // The backend returns { success: true, trips: [...] }
@@ -20,7 +19,6 @@ export const getAllTrips = async () => {
 };
 
 export const getTripById = async (tripId: string) => {
-  const axiosPublic = useAxiosPublic();
   try {
     const trip = await axiosPublic.get(`/trips/${tripId}`);
     

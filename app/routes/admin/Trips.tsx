@@ -29,7 +29,7 @@ const Trips = ({ loaderData }: Route.ComponentProps) => {
       <section className="py-6">
         <div className="trip-grid">
           {allTrips.map((trip) => (
-            <Link to={`/trips/${trip._id}`} key={trip.id} className="trip-card">
+            <Link to={`/all-trips/${trip._id}`} key={trip.id} className="trip-card">
               <TripCard
                 id={trip._id}
                 name={trip.name}
