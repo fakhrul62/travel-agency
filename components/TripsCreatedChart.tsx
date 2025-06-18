@@ -14,4 +14,4 @@ const TripsCreatedChart = ({ data }: { data: { day: string; count: number }[] })
   );
 };
 
-export default TripsCreatedChart;
+export default null;

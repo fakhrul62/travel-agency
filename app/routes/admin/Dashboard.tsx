@@ -6,14 +6,7 @@ import useAuth from "src/hook/useAuth";
 import UserGrowthChart from "components/UserGrowthChart";
 import TripsCreatedChart from "components/TripsCreatedChart";
 import TripsByStyleChart from "components/TripsByStyleChart";
-import {
-  getUsersAndTripsStats,
-  getUserGrowthPerDay,
-  getTripsCreatedPerDay,
-  getTripsByTravelStyle,
-} from "../api/Dashboard";
-import { getAllTrips } from "../api/Trip";
-import axiosSecure from "src/lib/axiosSecure";
+import { getUsersAndTripsStats } from "../api/Dashboard";
 
 export const loader = async () => {
   const {
@@ -25,16 +18,20 @@ export const loader = async () => {
     tripsByTravelStyle,
   } = await getUsersAndTripsStats();
 
+  // Import the new function
+  const { getUserGrowthPerMonth } = await import("../api/Dashboard");
+  const userGrowthPerMonth = getUserGrowthPerMonth(allUsers);
+
   return {
     dashboardStats,
     allTrips,
     allUsers,
     userGrowthPerDay,
+    userGrowthPerMonth, // add this
     tripsCreatedPerDay,
     tripsByTravelStyle,
   };
 };
-
 
 const Dashboard = () => {
   const loaderData = useLoaderData() as Awaited<ReturnType<typeof loader>>;
@@ -42,21 +39,22 @@ const Dashboard = () => {
   const { user } = useAuth();
 
   const defaultStats = {
-  totalUsers: 0,
-  usersJoined: { currentMonth: 0, lastMonth: 0 },
-  totalTrips: 0,
-  tripsCreated: { currentMonth: 0, lastMonth: 0 },
-  userRole: { total: 0, currentMonth: 0, lastMonth: 0 },
-  activeUsers: 0,
-};
+    totalUsers: 0,
+    usersJoined: { currentMonth: 0, lastMonth: 0 },
+    totalTrips: 0,
+    tripsCreated: { currentMonth: 0, lastMonth: 0 },
+    userRole: { total: 0, currentMonth: 0, lastMonth: 0 },
+    activeUsers: 0,
+  };
 
-const dashboardStats = {
-  ...defaultStats,
-  ...(loaderData?.dashboardStats || {}),
-};
+  const dashboardStats = {
+    ...defaultStats,
+    ...(loaderData?.dashboardStats || {}),
+  };
 
-
-  const allTrips = Array.isArray(loaderData?.allTrips) ? loaderData.allTrips : [];
+  const allTrips = Array.isArray(loaderData?.allTrips)
+    ? loaderData.allTrips
+    : [];
 
   if (isAdminLoading) {
     return (
@@ -84,26 +82,25 @@ const dashboardStats = {
       <section className="flex flex-col gap-6">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full">
           <StatsCard
-  headerTitle="Total Users"
-  total={dashboardStats.totalUsers}
-  currentMonth={dashboardStats.usersJoined.currentMonth}
-  lastMonth={dashboardStats.usersJoined.lastMonth}
-/>
+            headerTitle="Total Users"
+            total={dashboardStats.totalUsers}
+            currentMonth={dashboardStats.usersJoined.currentMonth}
+            lastMonth={dashboardStats.usersJoined.lastMonth}
+          />
 
-<StatsCard
-  headerTitle="Total Trips"
-  total={dashboardStats.totalTrips}
-  currentMonth={dashboardStats.tripsCreated.currentMonth}
-  lastMonth={dashboardStats.tripsCreated.lastMonth}
-/>
+          <StatsCard
+            headerTitle="Total Trips"
+            total={dashboardStats.totalTrips}
+            currentMonth={dashboardStats.tripsCreated.currentMonth}
+            lastMonth={dashboardStats.tripsCreated.lastMonth}
+          />
 
-<StatsCard
-  headerTitle="Active Users"
-  total={dashboardStats.userRole.total}
-  currentMonth={dashboardStats.userRole.currentMonth}
-  lastMonth={dashboardStats.userRole.lastMonth}
-/>
-
+          <StatsCard
+            headerTitle="Active Users"
+            total={dashboardStats.userRole.total}
+            currentMonth={dashboardStats.userRole.currentMonth}
+            lastMonth={dashboardStats.userRole.lastMonth}
+          />
         </div>
       </section>
 
@@ -126,18 +123,15 @@ const dashboardStats = {
       </section>
 
       <section className="grid grid-cols-1 lg:grid-cols-2 gap-5">
-        <div>
+        <div className="p-6 flex flex-col gap-6 bg-white shadow-400 rounded-20 text-dark-100">
           <h1 className="text-xl font-semibold text-dark-100">User Growth</h1>
-          <UserGrowthChart data={loaderData.userGrowthPerDay || []} />
+          <UserGrowthChart data={loaderData.userGrowthPerMonth || []} />
         </div>
 
-        <div>
-          <h1 className="text-xl font-semibold text-dark-100">Trips Created Per Day</h1>
-          <TripsCreatedChart data={loaderData.tripsCreatedPerDay || []} />
-        </div>
-
-        <div className="lg:col-span-2">
-          <h1 className="text-xl font-semibold text-dark-100">Trips by Travel Style</h1>
+        <div className="p-6 flex flex-col gap-6 bg-white shadow-400 rounded-20 text-dark-100">
+          <h1 className="text-xl font-semibold text-dark-100">
+            Trending Travel Styles
+          </h1>
           <TripsByStyleChart data={loaderData.tripsByTravelStyle || []} />
         </div>
       </section>

@@ -119,3 +119,30 @@ export const getTripsByTravelStyle = (trips: Document[] = []) => {
   });
   return Object.entries(counts).map(([travelStyle, count]) => ({ travelStyle, count }));
 };
+
+export const getUserGrowthPerMonth = (users: UserDocument[] = []) => {
+  // Get all months for the current year
+  const now = new Date();
+  const year = now.getFullYear();
+  const months: { label: string; full: string }[] = [];
+  const monthLabels = [
+    "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+  ];
+  for (let i = 0; i < 12; i++) {
+    const d = new Date(year, i, 1);
+    months.push({
+      label: monthLabels[i],
+      full: d.toLocaleString("en-US", { month: "short", year: "numeric" })
+    });
+  }
+  // Count users per month (current year only)
+  const counts: Record<string, number> = {};
+  users.forEach((user) => {
+    const date = new Date(user.joinedAt);
+    if (isNaN(date.getTime()) || date.getFullYear() !== year) return;
+    const key = date.toLocaleString("en-US", { month: "short", year: "numeric" });
+    counts[key] = (counts[key] || 0) + 1;
+  });
+  // Build result for all 12 months of current year
+  return months.map(({ label, full }) => ({ month: label, fullMonth: full, count: counts[full] || 0 }));
+};
