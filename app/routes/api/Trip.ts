@@ -3,21 +3,19 @@ import useAxiosPublic from "src/hook/useAxiosPublic";
 export const getAllTrips = async () => {
   const axiosPublic = useAxiosPublic();
   try {
-    const allTrips = await axiosPublic.get("/trips");
-    
-    if (!allTrips.data || allTrips.data.length === 0) {
-      console.log("No trips found.");
-      return {allTrips: [], totalTrips: 0};
+    const response = await axiosPublic.get("/trips");
+    // The backend returns { success: true, trips: [...] }
+    if (!response.data || !Array.isArray(response.data.trips)) {
+      console.log("No trips found or invalid response format.");
+      return { allTrips: [], totalTrips: 0 };
     }
-
     return {
-        allTrips : allTrips.data,
-        totalTrips: allTrips.data.length
-    }
-
+      allTrips: response.data.trips,
+      totalTrips: response.data.trips.length,
+    };
   } catch (error) {
     console.error("Error fetching trips:", error);
-    throw error;
+    return { allTrips: [], totalTrips: 0 };
   }
 };
 

@@ -7,7 +7,6 @@ const TripCard = ({
   imageUrls,
   location,
   tags,
-  travelStyle,
   estimatedPrice,
 }: TripCardProps) => {
   const path = useLocation();

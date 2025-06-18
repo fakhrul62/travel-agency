@@ -1,8 +1,8 @@
-import type { LoaderFunctionArgs } from "react-router";
-import { getTripById } from "../api/Trip";
+import { Link, type LoaderFunctionArgs } from "react-router";
+import { getAllTrips, getTripById } from "../api/Trip";
 import type { Route } from "./+types/TripDetails";
 import { cn, parseTripData } from "~/lib/utils";
-import { Header, InfoPill } from "components";
+import { Header, InfoPill, TripCard } from "components";
 
 export const loader = async ({ params }: LoaderFunctionArgs) => {
   const { tripId } = params;
@@ -11,12 +11,22 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
     throw new Error("Trip ID is required");
   }
 
-  const { trip } = await getTripById(tripId);
-  return trip;
+  const [tripResult, allTripsResult] = await Promise.all([
+    getTripById(tripId),
+    getAllTrips(),
+  ]);
+  const { trip } = tripResult;
+  const { allTrips } = allTripsResult;
+  return { trip, allTrips };
 };
 
 const TripDetails = ({ loaderData }: Route.ComponentProps) => {
-  const tripData: Trip | null = loaderData ? (loaderData as Trip) : null;
+  const tripData: Trip | null = loaderData?.trip
+    ? (loaderData.trip as Trip)
+    : null;
+  const allTrips: Trip[] = Array.isArray(loaderData?.allTrips)
+    ? loaderData.allTrips
+    : [];
   const {
     name,
     duration,
@@ -34,9 +44,9 @@ const TripDetails = ({ loaderData }: Route.ComponentProps) => {
   } = tripData || {};
 
   const visitTimeAndWeatherTime = [
-    {title: "Best Time to Visit: ", items: bestTimeToVisit},
-    {title: "Weather Info: ", items: weatherInfo},
-  ]
+    { title: "Best Time to Visit: ", items: bestTimeToVisit },
+    { title: "Weather Info: ", items: weatherInfo },
+  ];
 
   return (
     <main className="travel-detail wrapper">
@@ -112,23 +122,33 @@ const TripDetails = ({ loaderData }: Route.ComponentProps) => {
           </ul>
         </section>
         <section className="title">
-              <article>
-                <h3 className="!text-xl md:!text-3xl !text-dark-100 !font-semibold">{duration}-Day {country} {travelStyle} Trip</h3>
-                <p className="!text-base md:!text-2xl !text-gray-100 !font-normal">{budget}, {groupType} and {interests}</p>
-              </article>
-              <h2 className="!text-sm md:!text-xl !font-normal !text-dark-100">{estimatedPrice}</h2>
+          <article>
+            <h3 className="!text-xl md:!text-3xl !text-dark-100 !font-semibold">
+              {duration}-Day {country} {travelStyle} Trip
+            </h3>
+            <p className="!text-base md:!text-2xl !text-gray-100 !font-normal">
+              {budget}, {groupType} and {interests}
+            </p>
+          </article>
+          <h2 className="!text-sm md:!text-xl !font-normal !text-dark-100">
+            {estimatedPrice}
+          </h2>
         </section>
-        <p className="text-sm md:text-lg font-normal text-dark-400">{description}</p>
+        <p className="text-sm md:text-lg font-normal text-dark-400">
+          {description}
+        </p>
         <ul className="itinerary">
-          {itinerary?.map((day, index)=> (
+          {itinerary?.map((day, index) => (
             <li key={index}>
               <h3>
                 Day {day.day}: {day.location}
               </h3>
               <ul className="">
-                {day.activities.map((activity, index)=>(
+                {day.activities.map((activity, index) => (
                   <li key={index}>
-                    <span className="flex-shrink-0 p-18-semibold">{activity.time}</span>
+                    <span className="flex-shrink-0 p-18-semibold">
+                      {activity.time}
+                    </span>
                     <p className="flex-grow">{activity.description}</p>
                   </li>
                 ))}
@@ -136,24 +156,37 @@ const TripDetails = ({ loaderData }: Route.ComponentProps) => {
             </li>
           ))}
         </ul>
-          {visitTimeAndWeatherTime.map((section, index)=>(
-            <section key={index} className="visit">
-              <div>
-                <h3>
-                  {section.title}
-                </h3>
-                <ul>
-                  {section.items?.map((item)=>(
-                    <li key={item}>
-                      <p className="flex-grow">
-                        {item}
-                      </p>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </section>
+        {visitTimeAndWeatherTime.map((section, index) => (
+          <section key={index} className="visit">
+            <div>
+              <h3>{section.title}</h3>
+              <ul>
+                {section.items?.map((item) => (
+                  <li key={item}>
+                    <p className="flex-grow">{item}</p>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </section>
+        ))}
+      </section>
+      <section className="flex flex-col gap-6">
+        <h2 className="p-24-semibold text-dark-400">Popular Trips</h2>
+        <div className="trip-grid">
+          {allTrips.slice(0, 3).map((trip) => (
+            <Link to={`/trips/${trip._id}`} key={trip.id} className="trip-card">
+              <TripCard
+                id={trip._id}
+                name={trip.name}
+                location={trip.itinerary?.[0].location ?? ""}
+                imageUrls={trip.imageUrls[0]}
+                tags={[trip.interests, trip.travelStyle]}
+                estimatedPrice={trip.estimatedPrice}
+              />
+            </Link>
           ))}
+        </div>
       </section>
     </main>
   );
