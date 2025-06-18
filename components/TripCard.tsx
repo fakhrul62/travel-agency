@@ -32,7 +32,7 @@ const TripCard = ({
         </figure>
       </article>
       <div className="mt-5 pl-[18px] pr-3.5 pb-5">
-        {tags.map((tag, idx) => (
+        {tags?.map((tag, idx) => (
           <div
             key={idx}
             className={cn(

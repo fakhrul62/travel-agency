@@ -1,7 +1,12 @@
 import React from 'react'
 import { calculateTrendPercentage, cn } from '~/lib/utils'
-
-const StatsCard = ({headerTitle, total, currentMonth, lastMonth}: StatsCard) => {
+interface StatsCardProps {
+  headerTitle: string;
+  total: number;
+  currentMonth: number;
+  lastMonth: number;
+}
+const StatsCard = ({ headerTitle, total, currentMonth, lastMonth }: StatsCardProps) => {
     const {trend, percentage} = calculateTrendPercentage(currentMonth, lastMonth);
     const isDecrement = trend === "decrement";
   return (

@@ -14,7 +14,7 @@ type Params = {
   "/all-users": {};
   "/all-trips": {};
   "/trips/create": {};
-  "/trips/:tripId": {
+  "/all-trips/:tripId": {
     "tripId": string;
   };
 };

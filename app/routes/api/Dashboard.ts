@@ -1,8 +1,9 @@
+// src/api/Dashboard.ts
 import axiosSecure from "src/lib/axiosSecure";
 import { getAllTrips } from "./Trip";
 
 interface Document {
-    [key: string]: any;
+  [key: string]: any;
 }
 
 interface UserDocument extends Document {
@@ -10,85 +11,64 @@ interface UserDocument extends Document {
   joinedAt: string;
 }
 
-interface AllUsersResponse {
-  total: number;
-  documents: UserDocument[];
-}
+// Helper to normalize dates
+const normalizeJoinedAtDate = (rawDate: string): string | null => {
+  if (!rawDate) return null;
+  const cleaned = rawDate.replace(/^[A-Za-z]+,\s*/, "").replace(/\sat\s/, " ");
+  const parsedDate = new Date(cleaned);
+  if (isNaN(parsedDate.getTime())) return null;
+  return parsedDate.toISOString().slice(0, 10);
+};
 
-type FilterByDate = (
-    items: Document[],
-    key: string,
-    start : string,
-    end?: string
-) => number;
+export const getUsersAndTripsStats = async () => {
+  const [tripsRes, usersRes] = await Promise.all([
+    getAllTrips(),
+    axiosSecure.get("/users"),
+  ]);
 
-export const getUsersAndTripsStats = async (): Promise<any> =>{
-    const date = new Date();
-    const startCurrent = new Date(date.getFullYear(), date.getMonth(), 1).toDateString();
-    const startPrev = new Date(date.getFullYear(), date.getMonth() -1, 1).toDateString();
-    const endPrev = new Date(date.getFullYear(), date.getMonth(), 0).toDateString();
+  let userDocs: UserDocument[] = [];
+  if (Array.isArray(usersRes.data)) {
+    userDocs = usersRes.data;
+  } else if (usersRes.data?.documents && Array.isArray(usersRes.data.documents)) {
+    userDocs = usersRes.data.documents;
+  }
 
-    const [trips, usersRes] = await Promise.all([
-        getAllTrips(),
-        axiosSecure.get("/users")
-    ]);
-    const allUsers: AllUsersResponse = usersRes.data || { total: 0, documents: [] };
+  userDocs = userDocs
+    .map((user) => ({
+      ...user,
+      joinedAt: normalizeJoinedAtDate(user.joinedAt) || user.joinedAt,
+    }))
+    .filter((user) => user.joinedAt !== null);
 
-    // Support both array and object API responses for users
-    let userDocs: UserDocument[] = [];
-    if (Array.isArray(usersRes.data)) {
-      userDocs = usersRes.data;
-    } else if (usersRes.data && Array.isArray(usersRes.data.documents)) {
-      userDocs = usersRes.data.documents;
-    }
-    const allTrips = trips && Array.isArray(trips.allTrips) ? trips.allTrips : [];
+  const allTrips = tripsRes?.allTrips ?? [];
 
-    // Convert joinedAt to ISO string for reliable comparison
-    const normalizeDate = (dateStr: string) => {
-      // Try to parse as Date, fallback to original if invalid
-      const d = new Date(dateStr);
-      return isNaN(d.getTime()) ? dateStr : d.toISOString().slice(0, 10);
-    };
-    const startCurrentISO = new Date(date.getFullYear(), date.getMonth(), 1).toISOString().slice(0, 10);
-    const startPrevISO = new Date(date.getFullYear(), date.getMonth() - 1, 1).toISOString().slice(0, 10);
-    const endPrevISO = new Date(date.getFullYear(), date.getMonth(), 0).toISOString().slice(0, 10);
+  const now = new Date();
+  const startCurrentISO = new Date(now.getFullYear(), now.getMonth(), 1).toISOString().slice(0, 10);
+  const startPrevISO = new Date(now.getFullYear(), now.getMonth() - 1, 1).toISOString().slice(0, 10);
+  const endPrevISO = new Date(now.getFullYear(), now.getMonth(), 0).toISOString().slice(0, 10);
 
-    const filterByDate: FilterByDate = (items, key, start, end) =>
-      (Array.isArray(items) ? items : []).filter((item) => {
-        const itemDate = normalizeDate(item[key]);
-        return (
-          itemDate >= start && (!end || itemDate <= end)
-        );
-      }).length;
+  const filterByDate = (items: Document[], key: string, start: string, end?: string) =>
+    items.filter((item) => {
+      const date = new Date(item[key]);
+      if (isNaN(date.getTime())) return false;
+      const isoDate = date.toISOString().slice(0, 10);
+      return isoDate >= start && (!end || isoDate <= end);
+    }).length;
 
-    const filterUsersByRole = (role: string): UserDocument[] => {
-      return userDocs.filter((user: UserDocument) => user.role === role);
-    };
+  const filterUsersByRole = (role: string) => userDocs.filter((u) => u.role === role);
 
-    // Defensive: ensure all types are correct and values are numbers
-    const totalUsers = userDocs.length;
-    const usersJoinedCurrentMonth = Number(
-      filterByDate(userDocs, "joinedAt", startCurrentISO, undefined)
-    );
-    const usersJoinedLastMonth = Number(
-      filterByDate(userDocs, "joinedAt", startPrevISO, endPrevISO)
-    );
-    const totalTrips = typeof trips.totalTrips === 'number' ? trips.totalTrips : 0;
-    const tripsCreatedCurrentMonth = Number(
-      filterByDate(allTrips, "createdAt", startCurrentISO, undefined)
-    );
-    const tripsCreatedLastMonth = Number(
-      filterByDate(allTrips, "createdAt", startPrevISO, endPrevISO)
-    );
-    const userRoleTotal = Number(filterUsersByRole("user").length);
-    const userRoleCurrentMonth = Number(
-      filterByDate(filterUsersByRole("user"), "joinedAt", startCurrentISO, undefined)
-    );
-    const userRoleLastMonth = Number(
-      filterByDate(filterUsersByRole("user"), "joinedAt", startPrevISO, endPrevISO)
-    );
+  const totalUsers = userDocs.length;
+  const usersJoinedCurrentMonth = filterByDate(userDocs, "joinedAt", startCurrentISO);
+  const usersJoinedLastMonth = filterByDate(userDocs, "joinedAt", startPrevISO, endPrevISO);
+  const totalTrips = typeof tripsRes.totalTrips === "number" ? tripsRes.totalTrips : allTrips.length;
+  const tripsCreatedCurrentMonth = filterByDate(allTrips, "createdAt", startCurrentISO);
+  const tripsCreatedLastMonth = filterByDate(allTrips, "createdAt", startPrevISO, endPrevISO);
+  const userRoleTotal = filterUsersByRole("user").length;
+  const userRoleCurrentMonth = filterByDate(filterUsersByRole("user"), "joinedAt", startCurrentISO);
+  const userRoleLastMonth = filterByDate(filterUsersByRole("user"), "joinedAt", startPrevISO, endPrevISO);
 
-    return {
+  return {
+    dashboardStats: {
       totalUsers,
       usersJoined: {
         currentMonth: usersJoinedCurrentMonth,
@@ -104,6 +84,38 @@ export const getUsersAndTripsStats = async (): Promise<any> =>{
         currentMonth: userRoleCurrentMonth,
         lastMonth: userRoleLastMonth,
       },
-      activeUsers: 0, // Placeholder, update if you have logic for this
-    };
-}
+      activeUsers: 0,
+    },
+    allTrips,
+    allUsers: userDocs,
+    userGrowthPerDay: getUserGrowthPerDay(userDocs),
+    tripsCreatedPerDay: getTripsCreatedPerDay(allTrips),
+    tripsByTravelStyle: getTripsByTravelStyle(allTrips),
+  };
+};
+
+export const getUserGrowthPerDay = (users: UserDocument[] = []) => {
+  const counts: Record<string, number> = {};
+  users.forEach((user) => {
+    const day = new Date(user.joinedAt).toLocaleDateString("en-US", { month: "short", day: "numeric" });
+    counts[day] = (counts[day] || 0) + 1;
+  });
+  return Object.entries(counts).map(([day, count]) => ({ day, count }));
+};
+
+export const getTripsCreatedPerDay = (trips: Document[] = []) => {
+  const counts: Record<string, number> = {};
+  trips.forEach((trip) => {
+    const day = new Date(trip.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric" });
+    counts[day] = (counts[day] || 0) + 1;
+  });
+  return Object.entries(counts).map(([day, count]) => ({ day, count }));
+};
+
+export const getTripsByTravelStyle = (trips: Document[] = []) => {
+  const counts: Record<string, number> = {};
+  trips.forEach((trip) => {
+    if (trip.travelStyle) counts[trip.travelStyle] = (counts[trip.travelStyle] || 0) + 1;
+  });
+  return Object.entries(counts).map(([travelStyle, count]) => ({ travelStyle, count }));
+};
