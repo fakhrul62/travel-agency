@@ -1,4 +1,4 @@
-import { Link, NavLink, useLoaderData, useNavigate } from "react-router";
+import { Link, NavLink, useNavigate } from "react-router";
 import useAuth from "src/hook/useAuth";
 import { logOut } from "src/provider/AuthProvider";
 import { sidebarItems } from "~/constants";
