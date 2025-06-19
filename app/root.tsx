@@ -12,6 +12,8 @@ import "./app.css";// Add this import
 
 // Import React Query components
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import PageLoader from "./components/PageLoader";
+import { useNavigation } from "react-router";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -53,7 +55,14 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
-  return <Outlet />;
+  const navigation = useNavigation && useNavigation();
+  const isLoading = navigation && navigation.state === "loading";
+  return (
+    <>
+      {isLoading && <PageLoader />}
+      <Outlet />
+    </>
+  );
 }
 
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {

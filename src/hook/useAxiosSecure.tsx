@@ -37,7 +37,7 @@ const useAxiosSecure = () => {
       // If the status is 401 (Unauthorized) or 403 (Forbidden)
       if (status === 401 || status === 403) {
         await logOut(); // Log the user out
-        navigate("/sign-in"); // Navigate to the login page
+        navigate("/sign-up"); // Navigate to the login page
       }
       // Return the error to be handled by the calling code
       return Promise.reject(error);

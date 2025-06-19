@@ -2,6 +2,8 @@ import { useQuery } from "@tanstack/react-query";
 import { Header } from "components";
 import useAxiosSecure from "src/hook/useAxiosSecure";
 import { cn } from "~/lib/utils";
+import gsap from "gsap";
+import { useEffect, useRef } from "react";
 
 const AllUsers = () => {
   const axiosSecure = useAxiosSecure();
@@ -12,14 +14,24 @@ const AllUsers = () => {
       return res.data;
     },
   });
+  const mainRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (mainRef.current) {
+      gsap.fromTo(
+        mainRef.current,
+        { opacity: 0, y: 40 },
+        { opacity: 1, y: 0, duration: 1, ease: "power3.out" }
+      );
+    }
+  }, []);
   return (
-    <main className="all-users wrapper">
+    <main ref={mainRef} className="all-users wrapper">
       <Header
         title={`Manage Users`}
         subtitle={`Filter, Sort, Access detailed users profiles`}
       />
-      <div className="overflow-x-auto">
-        <table className="table">
+      <div className="overflow-x-auto mt-6">
+        <table className="table w-full">
           {/* head */}
           <thead>
             <tr className="text-gray-500">
@@ -33,10 +45,10 @@ const AllUsers = () => {
           </thead>
           <tbody>
             {allUsers.map((user: UserData, idx: any) => (
-              <tr key={user._id}>
-                <th className="text-gray-500">{idx+1}</th>
+              <tr key={user._id} className="hover:bg-blue-50 transition-colors">
+                <th className="text-gray-500 font-medium">{idx+1}</th>
                 <td className="flex items-center gap-2">
-                  <img src={user.photoURL} className="size-8 rounded-full" alt={user.name}  />
+                  <img src={user.photoURL} className="size-8 rounded-full border border-blue-200" alt={user.name}  />
                   {user.name}
                 </td>
                 <td>{user.email}</td>

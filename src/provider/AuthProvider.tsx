@@ -15,7 +15,7 @@ import auth from "./firebase";
 interface UserInfo {
   email: string;
   password: string;
-  _id : string;
+  _id? : string;
 }
 
 // Define auth context type

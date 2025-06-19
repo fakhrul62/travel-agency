@@ -8,7 +8,6 @@ declare module "react-router" {
 
 type Params = {
   "/": {};
-  "/sign-in": {};
   "/api/create-trip": {};
   "/dashboard": {};
   "/all-users": {};
@@ -16,5 +15,9 @@ type Params = {
   "/trips/create": {};
   "/all-trips/:tripId": {
     "tripId": string;
+  };
+  "/sign-up": {};
+  "/*": {
+    "*": string;
   };
 };

@@ -7,6 +7,8 @@ import UserGrowthChart from "components/UserGrowthChart";
 import TripsCreatedChart from "components/TripsCreatedChart";
 import TripsByStyleChart from "components/TripsByStyleChart";
 import { getUsersAndTripsStats } from "../api/Dashboard";
+import gsap from "gsap";
+import { useEffect, useRef } from "react";
 
 export const loader = async () => {
   const {
@@ -38,6 +40,43 @@ const Dashboard = () => {
   const [isAdmin, isAdminLoading] = useAdmin();
   const { user } = useAuth();
 
+  // Animation refs
+  const mainRef = useRef<HTMLDivElement>(null);
+  const statsRef = useRef<HTMLDivElement>(null);
+  const tripsRef = useRef<HTMLDivElement>(null);
+  const chartsRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (mainRef.current) {
+      gsap.fromTo(
+        mainRef.current,
+        { opacity: 0, y: 40 },
+        { opacity: 1, y: 0, duration: 1, ease: "power3.out" }
+      );
+    }
+    if (statsRef.current) {
+      gsap.fromTo(
+        statsRef.current,
+        { opacity: 0, y: 30 },
+        { opacity: 1, y: 0, duration: 0.8, delay: 0.3, ease: "power2.out" }
+      );
+    }
+    if (tripsRef.current) {
+      gsap.fromTo(
+        tripsRef.current,
+        { opacity: 0, x: -30 },
+        { opacity: 1, x: 0, duration: 0.8, delay: 0.5, ease: "power2.out" }
+      );
+    }
+    if (chartsRef.current) {
+      gsap.fromTo(
+        chartsRef.current,
+        { opacity: 0, x: 30 },
+        { opacity: 1, x: 0, duration: 0.8, delay: 0.7, ease: "power2.out" }
+      );
+    }
+  }, []);
+
   const defaultStats = {
     totalUsers: 0,
     usersJoined: { currentMonth: 0, lastMonth: 0 },
@@ -68,18 +107,17 @@ const Dashboard = () => {
     );
   }
 
-  if (!isAdmin || !user) {
-    return <Navigate to="/" replace />;
+  if (!user) {
+    return <Navigate to="/sign-up" replace />;
   }
 
   return (
-    <main className="dashboard wrapper">
+    <main className="dashboard wrapper" ref={mainRef}>
       <Header
         title={`Welcome ${user.displayName || user.email || "User"}!`}
         subtitle="Organize activities and famous destinations now"
       />
-
-      <section className="flex flex-col gap-6">
+      <section className="flex flex-col gap-6" ref={statsRef}>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full">
           <StatsCard
             headerTitle="Total Users"
@@ -87,14 +125,12 @@ const Dashboard = () => {
             currentMonth={dashboardStats.usersJoined.currentMonth}
             lastMonth={dashboardStats.usersJoined.lastMonth}
           />
-
           <StatsCard
             headerTitle="Total Trips"
             total={dashboardStats.totalTrips}
             currentMonth={dashboardStats.tripsCreated.currentMonth}
             lastMonth={dashboardStats.tripsCreated.lastMonth}
           />
-
           <StatsCard
             headerTitle="Active Users"
             total={dashboardStats.userRole.total}
@@ -103,8 +139,7 @@ const Dashboard = () => {
           />
         </div>
       </section>
-
-      <section className="container">
+      <section className="container" ref={tripsRef}>
         <h1 className="text-xl font-semibold text-dark-100">Created Trips</h1>
         <div className="trip-grid">
           {allTrips.slice(0, 3).map((trip: any) => (
@@ -121,13 +156,11 @@ const Dashboard = () => {
           ))}
         </div>
       </section>
-
-      <section className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+      <section className="grid grid-cols-1 lg:grid-cols-2 gap-5" ref={chartsRef}>
         <div className="p-6 flex flex-col gap-6 bg-white shadow-400 rounded-20 text-dark-100">
           <h1 className="text-xl font-semibold text-dark-100">User Growth</h1>
           <UserGrowthChart data={loaderData.userGrowthPerMonth || []} />
         </div>
-
         <div className="p-6 flex flex-col gap-6 bg-white shadow-400 rounded-20 text-dark-100">
           <h1 className="text-xl font-semibold text-dark-100">
             Trending Travel Styles

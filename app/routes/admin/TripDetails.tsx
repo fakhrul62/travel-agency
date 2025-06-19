@@ -1,8 +1,10 @@
+import gsap from "gsap";
 import { Link, type LoaderFunctionArgs } from "react-router";
 import { getAllTrips, getTripById } from "../api/Trip";
 import type { Route } from "./+types/TripDetails";
 import { cn, parseTripData } from "~/lib/utils";
 import { Header, InfoPill, TripCard } from "components";
+import { useEffect, useRef } from "react";
 
 export const loader = async ({ params }: LoaderFunctionArgs) => {
   const { tripId } = params;
@@ -47,6 +49,17 @@ const TripDetails = ({ loaderData }: Route.ComponentProps) => {
     { title: "Best Time to Visit: ", items: bestTimeToVisit },
     { title: "Weather Info: ", items: weatherInfo },
   ];
+
+  const mainRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (mainRef.current) {
+      gsap.fromTo(
+        mainRef.current,
+        { opacity: 0, y: 40 },
+        { opacity: 1, y: 0, duration: 1, ease: "power3.out" }
+      );
+    }
+  }, []);
 
   return (
     <main className="travel-detail wrapper">
@@ -177,7 +190,7 @@ const TripDetails = ({ loaderData }: Route.ComponentProps) => {
           {allTrips.slice(0, 3).map((trip) => (
             <div key={trip._id} className="trip-card">
               <TripCard
-              travelStyle={trip.travelStyle}
+                travelStyle={trip.travelStyle}
                 id={trip._id}
                 name={trip.name}
                 location={trip.itinerary?.[0].location ?? ""}

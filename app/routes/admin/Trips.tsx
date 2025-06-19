@@ -3,6 +3,8 @@ import { Link, type LoaderFunctionArgs } from "react-router";
 import { getAllTrips, getTripById } from "../api/Trip";
 import type { Route } from "./+types/Trips";
 import { allTrips } from '../../constants/index';
+import gsap from "gsap";
+import { useEffect, useRef } from "react";
 
 export const loader = async () => {
 
@@ -18,6 +20,16 @@ const Trips = ({ loaderData }: Route.ComponentProps) => {
   const allTrips: Trip[] = Array.isArray(loaderData?.allTrips)
     ? loaderData.allTrips
     : [];
+  const mainRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (mainRef.current) {
+      gsap.fromTo(
+        mainRef.current,
+        { opacity: 0, y: 40 },
+        { opacity: 1, y: 0, duration: 1, ease: "power3.out" }
+      );
+    }
+  }, []);
   return (
     <main className="wrapper">
       <Header

@@ -10,7 +10,7 @@ const NavItems = () => {
   const navigate = useNavigate();
   const handleLogOut = async() =>{
     await logOut();
-    navigate('/sign-in');
+    navigate('/sign-up');
   }
 
   return (
