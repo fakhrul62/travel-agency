@@ -175,8 +175,9 @@ const TripDetails = ({ loaderData }: Route.ComponentProps) => {
         <h2 className="p-24-semibold text-dark-400">Popular Trips</h2>
         <div className="trip-grid">
           {allTrips.slice(0, 3).map((trip) => (
-            <Link to={`/all-trips/${trip._id}`} key={trip._id} className="trip-card">
+            <div key={trip._id} className="trip-card">
               <TripCard
+              travelStyle={trip.travelStyle}
                 id={trip._id}
                 name={trip.name}
                 location={trip.itinerary?.[0].location ?? ""}
@@ -184,7 +185,7 @@ const TripDetails = ({ loaderData }: Route.ComponentProps) => {
                 tags={[trip.interests, trip.travelStyle]}
                 estimatedPrice={trip.estimatedPrice}
               />
-            </Link>
+            </div>
           ))}
         </div>
       </section>

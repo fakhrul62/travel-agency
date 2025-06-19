@@ -83,6 +83,7 @@ declare interface Location {
 }
 
 declare interface Trip {
+  _id: any;
   id: string;
   name: string;
   description: string;
