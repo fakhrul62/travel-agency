@@ -6,6 +6,8 @@ import { useNavigate } from "react-router";
 
 const SignUp: React.FC = () => {
   const [isRightActive, setIsRightActive] = useState(true);
+  const [signUpLoading, setSignUpLoading] = useState(false);
+  const [signInLoading, setSignInLoading] = useState(false);
 
   // Auth and HTTP hooks
   const auth = useAuth();
@@ -14,6 +16,7 @@ const SignUp: React.FC = () => {
   
   // Function to sign up user and upload to MongoDB and Firebase
   const signUpUser = async (name: string, email: string, password: string) => {
+    setSignUpLoading(true);
     const photoURL = "https://i.ibb.co/93p5LyKz/avatardefault-92824.webp";
     const role = "user";
     const tripCreated = "0";
@@ -55,6 +58,8 @@ const SignUp: React.FC = () => {
     } catch (error: any) {
       console.error("Sign up error:", error.message);
       // Optionally show error to user
+    } finally {
+      setSignUpLoading(false);
     }
   };
 
@@ -74,6 +79,7 @@ const SignUp: React.FC = () => {
   // Handler for sign in form
   const handleSignIn = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setSignInLoading(true);
     const formData = new FormData(e.currentTarget);
     const email = formData.get("email") as string;
     const password = formData.get("password") as string;
@@ -86,8 +92,10 @@ const SignUp: React.FC = () => {
     } catch (error: any) {
       console.error("Sign in error:", error.message);
       // Optionally show error to user
+    } finally {
+      setSignInLoading(false);
+      e.currentTarget?.reset();
     }
-    e.currentTarget?.reset();
   };
 
   // Handler for Google Sign In
@@ -151,7 +159,16 @@ const SignUp: React.FC = () => {
               placeholder="Password"
               className="signup-input"
             />
-            <button className="signup-btn mt-5">Sign Up</button>
+            <button className="signup-btn mt-5" type="submit" disabled={signUpLoading}>
+              {signUpLoading ? (
+                <span className="flex items-center justify-center gap-2">
+                  <svg className="animate-spin" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="10" stroke="#6366f1" strokeWidth="4" strokeDasharray="60" strokeDashoffset="20"/></svg>
+                  Signing Up...
+                </span>
+              ) : (
+                "Sign Up"
+              )}
+            </button>
           </form>
         </div>
 
@@ -171,7 +188,16 @@ const SignUp: React.FC = () => {
               placeholder="Password"
               className="signup-input"
             />
-            <button className="signup-btn mt-5">Sign In</button>
+            <button className="signup-btn mt-5" type="submit" disabled={signInLoading}>
+              {signInLoading ? (
+                <span className="flex items-center justify-center gap-2">
+                  <svg className="animate-spin" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="10" stroke="#6366f1" strokeWidth="4" strokeDasharray="60" strokeDashoffset="20"/></svg>
+                  Signing In...
+                </span>
+              ) : (
+                "Sign In"
+              )}
+            </button>
             <button
               type="button"
               className="signup-btn mt-3 flex items-center gap-2 w-full justify-center"
@@ -191,12 +217,12 @@ const SignUp: React.FC = () => {
         <div className="signup-container__overlay">
           <div className="signup-overlay">
             <div className="signup-overlay__panel signup-overlay--left">
-              <button className="signup-btn" onClick={() => setIsRightActive(false)}>
+              <button className="signup-btn-o" onClick={() => setIsRightActive(false)}>
                 Sign In
               </button>
             </div>
             <div className="signup-overlay__panel signup-overlay--right ">
-              <button className="signup-btn" onClick={() => setIsRightActive(true)}>
+              <button className="signup-btn-o" onClick={() => setIsRightActive(true)}>
                 Sign Up
               </button>
             </div>

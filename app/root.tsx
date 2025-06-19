@@ -12,7 +12,6 @@ import "./app.css";// Add this import
 
 // Import React Query components
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import PageLoader from "./components/PageLoader";
 import { useNavigation } from "react-router";
 
 export const links: Route.LinksFunction = () => [
@@ -59,7 +58,7 @@ export default function App() {
   const isLoading = navigation && navigation.state === "loading";
   return (
     <>
-      {isLoading && <PageLoader />}
+      {/* Remove global PageLoader. Only use local loaders in pages/components. */}
       <Outlet />
     </>
   );

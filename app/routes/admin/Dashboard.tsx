@@ -9,6 +9,7 @@ import TripsByStyleChart from "components/TripsByStyleChart";
 import { getUsersAndTripsStats } from "../api/Dashboard";
 import gsap from "gsap";
 import { useEffect, useRef } from "react";
+import PageLoader from "../../components/PageLoader";
 
 export const loader = async () => {
   const {
@@ -37,7 +38,7 @@ export const loader = async () => {
 
 const Dashboard = () => {
   const loaderData = useLoaderData() as Awaited<ReturnType<typeof loader>>;
-  const [isAdmin, isAdminLoading] = useAdmin();
+  // const [isAdmin, isAdminLoading] = useAdmin();
   const { user } = useAuth();
 
   // Animation refs
@@ -95,19 +96,16 @@ const Dashboard = () => {
     ? loaderData.allTrips
     : [];
 
-  if (isAdminLoading) {
+  // if (isAdminLoading || typeof user === 'undefined') {
+  if (typeof user === 'undefined') {
     return (
-      <div className="flex justify-center items-center min-h-screen">
-        <img
-          src="/assets/icons/loader.svg"
-          alt="Loading"
-          className="w-12 h-12 animate-spin"
-        />
-      </div>
+      <main className="dashboard wrapper flex justify-center items-center min-h-[300px]">
+        <PageLoader />
+      </main>
     );
   }
 
-  if (!user) {
+  if (user === null) {
     return <Navigate to="/sign-up" replace />;
   }
 
