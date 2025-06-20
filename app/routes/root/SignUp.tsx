@@ -86,8 +86,14 @@ const SignUp: React.FC = () => {
     try {
       if (auth?.signInUser) {
         await auth.signInUser({ email, password });
-        setIsRightActive(false); // Switch to sign-in panel and hide signup overlay
-        navigate("/dashboard");
+        // Fetch user profile from backend to check role
+        const res = await axiosPublic.get(`/users/profile/${email}`);
+        const userProfile = res.data;
+        if (userProfile.role === "admin") {
+          navigate("/dashboard");
+        } else {
+          navigate("/user-dashboard");
+        }
       }
     } catch (error: any) {
       console.error("Sign in error:", error.message);

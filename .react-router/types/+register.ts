@@ -16,6 +16,11 @@ type Params = {
   "/all-trips/:tripId": {
     "tripId": string;
   };
+  "/profile": {};
+  "/user-dashboard": {};
+  "/my-trips": {};
+  "/ai-trip": {};
+  "/profile": {};
   "/sign-up": {};
   "/*": {
     "*": string;

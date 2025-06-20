@@ -8,6 +8,9 @@ interface UserProfile {
     email: string;
     photoURL: string;
     role: string;
+    password?: string; // Added password field
+    tripCreated?: number | string;
+    joinedAt?: string;
 }
 
 const useUserProfile = () => {
