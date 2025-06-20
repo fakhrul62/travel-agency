@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useRef } from "react";
 import gsap from "gsap";
+import { Helmet } from "react-helmet";
 
 interface Gap {
   row: number;
@@ -264,80 +265,86 @@ const ErrorPage: React.FC<CubesProps> = ({
   } as React.CSSProperties;
 
   return (
-    <div
-      className="relative w-full h-full"
-      style={wrapperStyle}
-    >
-      <div ref={sceneRef} className="grid w-full h-full" style={sceneStyle}>
-        {cells.map((_, r) =>
-          cells.map((__, c) => (
-            <div
-              key={`${r}-${c}`}
-              className="cube relative w-full h-full aspect-square [transform-style:preserve-3d]"
-              data-row={r}
-              data-col={c}
-            >
-              <span className="absolute pointer-events-none -inset-9" />
+    <>
+      <Helmet>
+        <title>Error | ToureChol</title>
+        <meta name="description" content="An error occurred on ToureChol." />
+      </Helmet>
+      <div
+        className="relative w-full h-full"
+        style={wrapperStyle}
+      >
+        <div ref={sceneRef} className="grid w-full h-full" style={sceneStyle}>
+          {cells.map((_, r) =>
+            cells.map((__, c) => (
+              <div
+                key={`${r}-${c}`}
+                className="cube relative w-full h-full aspect-square [transform-style:preserve-3d]"
+                data-row={r}
+                data-col={c}
+              >
+                <span className="absolute pointer-events-none -inset-9" />
 
-              <div
-                className="cube-face absolute inset-0 flex items-center justify-center"
-                style={{
-                  background: "var(--cube-face-bg)",
-                  border: "var(--cube-face-border)",
-                  boxShadow: "var(--cube-face-shadow)",
-                  transform: "translateY(-50%) rotateX(90deg)",
-                }}
-              />
-              <div
-                className="cube-face absolute inset-0 flex items-center justify-center"
-                style={{
-                  background: "var(--cube-face-bg)",
-                  border: "var(--cube-face-border)",
-                  boxShadow: "var(--cube-face-shadow)",
-                  transform: "translateY(50%) rotateX(-90deg)",
-                }}
-              />
-              <div
-                className="cube-face absolute inset-0 flex items-center justify-center"
-                style={{
-                  background: "var(--cube-face-bg)",
-                  border: "var(--cube-face-border)",
-                  boxShadow: "var(--cube-face-shadow)",
-                  transform: "translateX(-50%) rotateY(-90deg)",
-                }}
-              />
-              <div
-                className="cube-face absolute inset-0 flex items-center justify-center"
-                style={{
-                  background: "var(--cube-face-bg)",
-                  border: "var(--cube-face-border)",
-                  boxShadow: "var(--cube-face-shadow)",
-                  transform: "translateX(50%) rotateY(90deg)",
-                }}
-              />
-              <div
-                className="cube-face absolute inset-0 flex items-center justify-center"
-                style={{
-                  background: "var(--cube-face-bg)",
-                  border: "var(--cube-face-border)",
-                  boxShadow: "var(--cube-face-shadow)",
-                  transform: "rotateY(-90deg) translateX(50%) rotateY(90deg)",
-                }}
-              />
-              <div
-                className="cube-face absolute inset-0 flex items-center justify-center"
-                style={{
-                  background: "var(--cube-face-bg)",
-                  border: "var(--cube-face-border)",
-                  boxShadow: "var(--cube-face-shadow)",
-                  transform: "rotateY(90deg) translateX(-50%) rotateY(-90deg)",
-                }}
-              />
-            </div>
-          ))
-        )}
+                <div
+                  className="cube-face absolute inset-0 flex items-center justify-center"
+                  style={{
+                    background: "var(--cube-face-bg)",
+                    border: "var(--cube-face-border)",
+                    boxShadow: "var(--cube-face-shadow)",
+                    transform: "translateY(-50%) rotateX(90deg)",
+                  }}
+                />
+                <div
+                  className="cube-face absolute inset-0 flex items-center justify-center"
+                  style={{
+                    background: "var(--cube-face-bg)",
+                    border: "var(--cube-face-border)",
+                    boxShadow: "var(--cube-face-shadow)",
+                    transform: "translateY(50%) rotateX(-90deg)",
+                  }}
+                />
+                <div
+                  className="cube-face absolute inset-0 flex items-center justify-center"
+                  style={{
+                    background: "var(--cube-face-bg)",
+                    border: "var(--cube-face-border)",
+                    boxShadow: "var(--cube-face-shadow)",
+                    transform: "translateX(-50%) rotateY(-90deg)",
+                  }}
+                />
+                <div
+                  className="cube-face absolute inset-0 flex items-center justify-center"
+                  style={{
+                    background: "var(--cube-face-bg)",
+                    border: "var(--cube-face-border)",
+                    boxShadow: "var(--cube-face-shadow)",
+                    transform: "translateX(50%) rotateY(90deg)",
+                  }}
+                />
+                <div
+                  className="cube-face absolute inset-0 flex items-center justify-center"
+                  style={{
+                    background: "var(--cube-face-bg)",
+                    border: "var(--cube-face-border)",
+                    boxShadow: "var(--cube-face-shadow)",
+                    transform: "rotateY(-90deg) translateX(50%) rotateY(90deg)",
+                  }}
+                />
+                <div
+                  className="cube-face absolute inset-0 flex items-center justify-center"
+                  style={{
+                    background: "var(--cube-face-bg)",
+                    border: "var(--cube-face-border)",
+                    boxShadow: "var(--cube-face-shadow)",
+                    transform: "rotateY(90deg) translateX(-50%) rotateY(-90deg)",
+                  }}
+                />
+              </div>
+            ))
+          )}
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

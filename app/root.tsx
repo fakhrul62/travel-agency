@@ -38,6 +38,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <Meta />
+        <link rel="icon" type="image/svg+xml" href="/assets/icons/logo.svg" />
         <Links />
       </head>
       <body>

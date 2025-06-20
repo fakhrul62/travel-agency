@@ -38,7 +38,7 @@ export const userSidebarItems = [
     id: 3,
     icon: "/assets/icons/itinerary.svg",
     label: "AI Trip",
-    href: "/ai-trip",
+    href: "/all-trips",
   },
   {
     id: 4,

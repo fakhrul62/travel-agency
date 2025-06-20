@@ -1,47 +1,86 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { Link } from "react-router";
+import { Helmet } from "react-helmet";
+import gsap from "gsap";
 
 const Home: React.FC = () => {
+  const headlineRef = useRef<HTMLHeadingElement>(null);
+  const subtextRef = useRef<HTMLParagraphElement>(null);
+  const ctaRef = useRef<HTMLDivElement>(null);
+  const heroImgRef = useRef<HTMLImageElement>(null);
+
+  useEffect(() => {
+    const tl = gsap.timeline({ defaults: { ease: "power2.out" } });
+    tl.fromTo(
+      headlineRef.current,
+      { y: 60, opacity: 0 },
+      { y: 0, opacity: 1, duration: 0.8 }
+    )
+      .fromTo(
+        subtextRef.current,
+        { y: 40, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.7 },
+        "-=0.4"
+      )
+      .fromTo(
+        ctaRef.current,
+        { y: 30, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.6 },
+        "-=0.3"
+      )
+      .fromTo(
+        heroImgRef.current,
+        { scale: 0.92, opacity: 0 },
+        { scale: 1, opacity: 1, duration: 1 },
+        "-=0.5"
+      );
+  }, []);
+
   return (
-    <section className="text-gray-700 bg-white body-font min-h-screen h-screen flex flex-col items-center justify-center overflow-hidden">
-      <div className="w-full">
-        <div className="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
-          <Link
-            className="flex title-font font-medium items-center text-gray-900 mb-4 md:mb-0"
-            to="/"
-          >
+    <>
+      <Helmet>
+        <title>ToureChol</title>
+        <meta
+          name="description"
+          content="Welcome to ToureChol - your travel companion."
+        />
+      </Helmet>
+      <section className="bg-white min-h-screen flex flex-col items-center justify-center px-4">
+        {/* Navbar */}
+        <header className="w-full max-w-7xl mx-auto flex items-center justify-between py-6">
+          <Link className="flex items-center gap-2" to="/">
             <img
               src="/assets/icons/logo.svg"
               alt="ToureChol Logo"
-              className="w-10 h-10 p-1 bg-indigo-500 rounded-full"
+              className="w-10 h-10 bg-indigo-500 rounded-full p-1 shadow-md"
             />
-            <span className="ml-3 text-2xl font-bold tracking-tight">
+            <span className="text-2xl font-bold text-gray-900 tracking-tight">
               ToureChol
             </span>
           </Link>
-          <nav className="md:mr-auto md:ml-4 md:py-1 md:pl-4 md:border-l md:border-gray-200 flex flex-wrap items-center text-base justify-center">
+          <nav className="hidden md:flex gap-8 text-base font-medium">
             <Link
-              className="mr-5 hover:text-indigo-600 transition-colors"
+              className="text-gray-500 hover:text-indigo-600 transition-colors"
               to="/"
             >
               Home
             </Link>
             <Link
-              className="mr-5 hover:text-indigo-600 transition-colors"
+              className="text-gray-500 hover:text-indigo-600 transition-colors"
               to="/sign-up"
             >
               Sign Up
             </Link>
             <Link
-              className="mr-5 hover:text-indigo-600 transition-colors"
+              className="text-gray-500 hover:text-indigo-600 transition-colors"
               to="/dashboard"
             >
               Dashboard
             </Link>
           </nav>
           <Link
-            to="/sign-in"
-            className="inline-flex items-center bg-indigo-500 border-0 py-1 px-3 focus:outline-none hover:bg-indigo-600 rounded text-base mt-4 md:mt-0 text-white font-semibold transition-colors"
+            to="/sign-up"
+            className="inline-flex items-center bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-5 py-2 rounded-lg shadow transition-colors text-base"
           >
             Get Started
             <svg
@@ -50,48 +89,57 @@ const Home: React.FC = () => {
               strokeLinecap="round"
               strokeLinejoin="round"
               strokeWidth="2"
-              className="w-4 h-4 ml-1"
+              className="w-4 h-4 ml-2"
               viewBox="0 0 24 24"
             >
               <path d="M5 12h14M12 5l7 7-7 7"></path>
             </svg>
           </Link>
-        </div>
-      </div>
-      <div className="container mx-auto flex px-5 py-24 md:flex-row flex-col items-center flex-1 h-full">
-        <div className="lg:flex-grow md:w-1/2 lg:pr-24 md:pr-16 flex flex-col md:items-start md:text-left mb-16 md:mb-0 items-center text-center">
-          <h1 className="title-font sm:text-5xl text-4xl mb-4 font-bold text-gray-900">
-            Discover Your Next Adventure with ToureChol
-          </h1>
-          <p className="mb-8 leading-relaxed text-gray-700 text-lg max-w-xl">
-            Plan, book, and experience unforgettable journeys with ToureChol.
-            Explore curated trips, connect with travel experts, and make memories
-            that last a lifetime.
-          </p>
-          <div className="flex justify-center">
-            <Link
-              to="/sign-up"
-              className="inline-flex text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg font-semibold transition-colors"
+        </header>
+        {/* Hero Section */}
+        <main className="w-full max-w-7xl mx-auto flex flex-col-reverse md:flex-row items-center justify-between flex-1 gap-8 md:gap-0 mt-8 md:mt-0">
+          <div className="flex-1 flex flex-col items-center md:items-start text-center md:text-left">
+            <h1
+              ref={headlineRef}
+              className="text-4xl sm:text-5xl font-bold text-gray-900 mb-6 leading-tight"
             >
-              Get Started
-            </Link>
-            <Link
-              to="/dashboard"
-              className="ml-4 inline-flex text-indigo-600 bg-gray-100 border-0 py-2 px-6 focus:outline-none hover:bg-gray-200 hover:text-indigo-800 rounded text-lg font-semibold transition-colors"
+              Discover Your Next Adventure with{" "}
+              <span className="text-indigo-600">ToureChol</span>
+            </h1>
+            <p
+              ref={subtextRef}
+              className="mb-8 text-gray-600 text-lg max-w-xl"
             >
-              Dashboard
-            </Link>
+              Plan, book, and experience unforgettable journeys. Explore curated
+              trips, connect with travel experts, and make memories that last a
+              lifetime.
+            </p>
+            <div ref={ctaRef} className="flex gap-4">
+              <Link
+                to="/sign-up"
+                className="inline-flex items-center text-white bg-indigo-600 hover:bg-indigo-700 font-semibold px-6 py-2 rounded-lg shadow transition-colors text-lg"
+              >
+                Get Started
+              </Link>
+              <Link
+                to="/dashboard"
+                className="inline-flex items-center border border-zinc-200 text-indigo-600 bg-white hover:bg-gray-200 hover:text-indigo-800 font-semibold px-6 py-2 rounded-lg transition-colors text-lg"
+              >
+                Dashboard
+              </Link>
+            </div>
           </div>
-        </div>
-        <div className="lg:max-w-lg lg:w-full md:w-1/2 w-5/6">
-          <img
-            className="object-cover object-center rounded shadow-xl"
-            alt="Travel Hero"
-            src="/assets/images/hero-img.png"
-          />
-        </div>
-      </div>
-    </section>
+          <div className="flex-1 flex justify-center items-center">
+            <img
+              ref={heroImgRef}
+              className="object-cover object-center rounded-xl shadow-2xl w-full max-w-md"
+              alt="Travel Hero"
+              src="/assets/images/hero-img.png"
+            />
+          </div>
+        </main>
+      </section>
+    </>
   );
 };
 

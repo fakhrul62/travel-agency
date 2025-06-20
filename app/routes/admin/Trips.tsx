@@ -5,6 +5,7 @@ import type { Route } from "./+types/Trips";
 import { allTrips } from '../../constants/index';
 import gsap from "gsap";
 import { useEffect, useRef } from "react";
+import { Helmet } from "react-helmet";
 
 export const loader = async () => {
 
@@ -31,32 +32,38 @@ const Trips = ({ loaderData }: Route.ComponentProps) => {
     }
   }, []);
   return (
-    <main className="wrapper">
-      <Header
-        title={`All Trips`}
-        subtitle={`Manage Created Trips`}
-        ctaText="Create Trip"
-        ctaLink={`/trips/create`}
-      />
-      <section className="py-6">
-        <div className="trip-grid">
-          {allTrips.map((trip) => (
-            <div  key={trip._id} className="trip-card">
-              <TripCard
-                travelStyle={trip.travelStyle}
-                id={trip._id}
-                name={trip.name}
-                location={trip.itinerary?.[0].location ?? ""}
-                imageUrls={trip.imageUrls[0]}
-                tags={[trip.interests, trip.travelStyle]}
-                estimatedPrice={trip.estimatedPrice}
-              />
-            </div>
-          ))}
-        </div>
-      </section>
-      
-    </main>
+    <>
+      <Helmet>
+        <title>AI Trips | ToureChol</title>
+        <meta name="description" content="Manage and explore AI-generated trips on ToureChol." />
+      </Helmet>
+      <main className="wrapper">
+        <Header
+          title={`AI Trips`}
+          subtitle={`Manage Created Trips`}
+          ctaText="Create Trip"
+          ctaLink={`/trips/create`}
+        />
+        <section className="py-6">
+          <div className="trip-grid">
+            {allTrips.map((trip) => (
+              <div  key={trip._id} className="trip-card">
+                <TripCard
+                  travelStyle={trip.travelStyle}
+                  id={trip._id}
+                  name={trip.name}
+                  location={trip.itinerary?.[0].location ?? ""}
+                  imageUrls={trip.imageUrls[0]}
+                  tags={[trip.interests, trip.travelStyle]}
+                  estimatedPrice={trip.estimatedPrice}
+                />
+              </div>
+            ))}
+          </div>
+        </section>
+        
+      </main>
+    </>
   );
 };
 
