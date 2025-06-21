@@ -4,7 +4,7 @@ import { useNavigate } from "react-router";
 
 // Create an axios instance with a base URL
 const axiosSecure = axios.create({
-  baseURL: "http://localhost:5000/", // Base URL for the API
+  baseURL: "https://travel-agency-server-delta.vercel.app//", // Base URL for the API
 });
 
 const useAxiosSecure = () => {
