@@ -1,0 +1,308 @@
+travel-agency-client
+│   .dockerignore
+│   .env.local
+│   .firebaserc
+│   .gitignore
+│   Dockerfile
+│   firebase.json
+│   folder_structure.txt
+│   folder__structure.txt
+│   main.tsx
+│   package-lock.json
+│   package.json
+│   react-router.config.ts
+│   README.md
+│   tsconfig.json
+│   vite.config.ts
+│   
+├───.firebase
+│       hosting.cHVibGlj.cache
+│       hosting.YnVpbGRcY2xpZW50.cache
+│       hosting.ZGlzdA.cache
+│       
+├───.idea
+│       .gitignore
+│       modules.xml
+│       travel-agency-client.iml
+│       vcs.xml
+│       workspace.xml
+│       
+├───.react-router
+│   └───types
+│       │   +register.ts
+│       │   +virtual.d.ts
+│       │   
+│       └───app
+│           ├───+types
+│           │       root.ts
+│           │       
+│           ├───pages
+│           │   └───+types
+│           │           AiTrip.ts
+│           │           Home.ts
+│           │           MinimalErrorPage.ts
+│           │           MyTrips.ts
+│           │           Profile.ts
+│           │           
+│           └───routes
+│               ├───admin
+│               │   └───+types
+│               │           AdminLayout.ts
+│               │           AllUsers.ts
+│               │           CreateTrip.ts
+│               │           Dashboard.ts
+│               │           Profile.ts
+│               │           TripDetails.ts
+│               │           Trips.ts
+│               │           
+│               ├───api
+│               │   └───+types
+│               │           CreateTrip.ts
+│               │           
+│               ├───root
+│               │   └───+types
+│               │           SignUp.ts
+│               │           
+│               └───user
+│                   └───+types
+│                           Dashboard.ts
+│                           UserLayout.ts
+│                           
+├───app
+│   │   app.css
+│   │   config.ts
+│   │   index.d.ts
+│   │   root.tsx
+│   │   routes.ts
+│   │   signup.css
+│   │   
+│   ├───components
+│   │       PageLoader.tsx
+│   │       
+│   ├───constants
+│   │       index.ts
+│   │       sidebarItems.ts
+│   │       world_map.ts
+│   │       
+│   ├───lib
+│   │       utils.ts
+│   │       
+│   ├───pages
+│   │   │   AiTrip.tsx
+│   │   │   ErrorPage.tsx
+│   │   │   Home.tsx
+│   │   │   MinimalErrorPage.tsx
+│   │   │   MyTrips.tsx
+│   │   │   Profile.tsx
+│   │   │   
+│   │   ├───admin
+│   │   │       Trips.tsx
+│   │   │       
+│   │   └───root
+│   │           SignIn.tsx
+│   │           
+│   └───routes
+│       ├───admin
+│       │   │   AdminLayout.tsx
+│       │   │   AllUsers.tsx
+│       │   │   CreateTrip.tsx
+│       │   │   Dashboard.tsx
+│       │   │   dashboardLoader.ts
+│       │   │   Profile.tsx
+│       │   │   TripDetails.tsx
+│       │   │   Trips.tsx
+│       │   │   
+│       │   └───+types
+│       │           Dashboard.d.ts
+│       │           
+│       ├───api
+│       │       CreateTrip.ts
+│       │       Dashboard.ts
+│       │       Trip.ts
+│       │       
+│       ├───root
+│       │       signIn.tsx
+│       │       SignUp.tsx
+│       │       
+│       └───user
+│               Dashboard.tsx
+│               UserLayout.tsx
+│               
+├───build
+│   ├───client
+│   │   │   index.html
+│   │   │   
+│   │   └───assets
+│   │       │   AdminLayout-2WLh-Jzg.js
+│   │       │   AiTrip-x7nLbhqz.js
+│   │       │   AllUsers-5DA5g_y7.js
+│   │       │   AuthProvider-JgyqPfSq.js
+│   │       │   chunk-AYJ5UCUI-BLP1_hQx.js
+│   │       │   CreateTrip-8hODj6DU.js
+│   │       │   CreateTrip-BpRkNtKl.js
+│   │       │   Dashboard-Cg3mQfhy.js
+│   │       │   Dashboard-ChLjbRTy.js
+│   │       │   entry.client-mri6vi48.js
+│   │       │   Header-fudStVNr.js
+│   │       │   Helmet-Cl7vJmWT.js
+│   │       │   Home-zZORMdX5.js
+│   │       │   index-CYw9ac54.js
+│   │       │   index-D3jsOSc0.js
+│   │       │   index-DJOJgv20.js
+│   │       │   index-xsH4HHeE.js
+│   │       │   manifest-569eb2a7.js
+│   │       │   MinimalErrorPage-D5ss9b96.js
+│   │       │   MobileSidebar-D0VTyC5B.js
+│   │       │   MyTrips-CdClLyFC.js
+│   │       │   Profile-CbcShZ33.js
+│   │       │   Profile-CZUx6dAv.js
+│   │       │   QueryClientProvider-4cY-XB2B.js
+│   │       │   root-CVm3nxh8.js
+│   │       │   root-DX06DTQ7.css
+│   │       │   SignUp-BqUPjbqg.js
+│   │       │   signup-DzhfZ8zu.css
+│   │       │   TripCard-BfGKyhVq.js
+│   │       │   TripDetails-A0PkgQJc.js
+│   │       │   Trips-iTrvQ4c2.js
+│   │       │   useAuth-BRKuhej0.js
+│   │       │   useAxiosPublic-dTqA8zy9.js
+│   │       │   useAxiosSecure-l7S9U2n0.js
+│   │       │   useQuery-DfWpQBaw.js
+│   │       │   UserLayout-CCxkWG6Q.js
+│   │       │   useUserProfile-C789rjtS.js
+│   │       │   with-props-DY9_CxBz.js
+│   │       │   
+│   │       ├───icons
+│   │       │       arrow-down-red.svg
+│   │       │       arrow-down.svg
+│   │       │       arrow-left.svg
+│   │       │       arrow-up-green.svg
+│   │       │       blue-check.svg
+│   │       │       calendar.svg
+│   │       │       check.svg
+│   │       │       decrement.svg
+│   │       │       destination.svg
+│   │       │       filter.svg
+│   │       │       google.svg
+│   │       │       home.svg
+│   │       │       increment.svg
+│   │       │       itinerary-button.svg
+│   │       │       itinerary.svg
+│   │       │       loader.svg
+│   │       │       location-mark.svg
+│   │       │       logo.svg
+│   │       │       logout.svg
+│   │       │       magic-star.svg
+│   │       │       menu.svg
+│   │       │       plus.svg
+│   │       │       refresh.svg
+│   │       │       star.svg
+│   │       │       users.svg
+│   │       │       
+│   │       └───images
+│   │               auth-img.webp
+│   │               card-img-1.png
+│   │               card-img-2.png
+│   │               card-img-3.png
+│   │               card-img-4.png
+│   │               card-img-5.png
+│   │               card-img-6.png
+│   │               content.png
+│   │               david.webp
+│   │               hero-img.png
+│   │               james.webp
+│   │               michael.webp
+│   │               readme.png
+│   │               sample.jpeg
+│   │               sample1.jpg
+│   │               sample2.jpg
+│   │               sample3.jpg
+│   │               sample4.jpg
+│   │               
+│   └───server
+│       │   index.js
+│       │   
+│       └───assets
+├───components
+│       AdminRoute.tsx
+│       Header.tsx
+│       index.ts
+│       InfoPill.tsx
+│       MobileSidebar.tsx
+│       NavItems.tsx
+│       StatsCard.tsx
+│       TripCard.tsx
+│       TripsByStyleChart.tsx
+│       TripsCreatedChart.tsx
+│       UserGrowthChart.tsx
+│             
+├───public
+│   │   index.html
+│   │   
+│   └───assets
+│       ├───icons
+│       │       arrow-down-red.svg
+│       │       arrow-down.svg
+│       │       arrow-left.svg
+│       │       arrow-up-green.svg
+│       │       blue-check.svg
+│       │       calendar.svg
+│       │       check.svg
+│       │       decrement.svg
+│       │       destination.svg
+│       │       filter.svg
+│       │       google.svg
+│       │       home.svg
+│       │       increment.svg
+│       │       itinerary-button.svg
+│       │       itinerary.svg
+│       │       loader.svg
+│       │       location-mark.svg
+│       │       logo.svg
+│       │       logout.svg
+│       │       magic-star.svg
+│       │       menu.svg
+│       │       plus.svg
+│       │       refresh.svg
+│       │       star.svg
+│       │       users.svg
+│       │       
+│       └───images
+│               auth-img.webp
+│               card-img-1.png
+│               card-img-2.png
+│               card-img-3.png
+│               card-img-4.png
+│               card-img-5.png
+│               card-img-6.png
+│               content.png
+│               david.webp
+│               hero-img.png
+│               james.webp
+│               michael.webp
+│               readme.png
+│               sample.jpeg
+│               sample1.jpg
+│               sample2.jpg
+│               sample3.jpg
+│               sample4.jpg
+│               
+└───src
+    ├───components
+    │       AdminRoute.tsx
+    │       
+    ├───hook
+    │       useAdmin.tsx
+    │       useAuth.tsx
+    │       useAxiosPublic.tsx
+    │       useAxiosSecure.tsx
+    │       useUserProfile.tsx
+    │       
+    ├───lib
+    │       axiosPublic.ts
+    │       axiosSecure.ts
+    │       
+    └───provider
+            AuthProvider.tsx
+            firebase.ts
+            
