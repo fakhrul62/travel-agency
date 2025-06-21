@@ -8,9 +8,6 @@ export default defineConfig({
   ssr: {
     noExternal: []
   },
-  build: {
-    outDir: 'dist'
-  },
   optimizeDeps: {
     include: ['@google/generative-ai'],
   },

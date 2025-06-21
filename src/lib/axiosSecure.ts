@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const axiosSecure = axios.create({
-  baseURL: "https://travel-agency-server-3n1wr27f2-fakhrul-alams-projects.vercel.app/",
+  baseURL: "http://localhost:5000/",
 });
 
 // Attach token if available
