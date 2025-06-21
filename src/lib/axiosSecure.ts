@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const axiosSecure = axios.create({
-  baseURL: "https://travel-agency-server-delta.vercel.app//",
+  baseURL: "https://travel-agency-server-delta.vercel.app/",
 });
 
 // Attach token if available
