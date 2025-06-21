@@ -114,16 +114,16 @@ const Home: React.FC = () => {
               trips, connect with travel experts, and make memories that last a
               lifetime.
             </p>
-            <div ref={ctaRef} className="flex gap-4">
+            <div ref={ctaRef} className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
               <Link
                 to="/sign-up"
-                className="inline-flex items-center text-white bg-blue-600 hover:bg-blue-700 font-semibold px-6 py-2 rounded-lg shadow transition-colors text-lg"
+                className="inline-flex items-center text-white bg-blue-600 hover:bg-blue-700 font-semibold px-6 py-2 rounded-lg shadow transition-colors text-lg w-full sm:w-auto"
               >
                 Get Started
               </Link>
               <Link
                 to="/dashboard"
-                className="inline-flex items-center border border-zinc-200 text-blue-600 bg-white hover:bg-gray-200 hover:text-blue-800 font-semibold px-6 py-2 rounded-lg transition-colors text-lg"
+                className="inline-flex items-center border border-zinc-200 text-blue-600 bg-white hover:bg-gray-200 hover:text-blue-800 font-semibold px-6 py-2 rounded-lg transition-colors text-lg w-full sm:w-auto"
               >
                 Dashboard
               </Link>

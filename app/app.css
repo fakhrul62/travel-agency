@@ -304,7 +304,7 @@
         @apply text-base md:text-2xl font-bold text-dark-100;
       }
       a {
-        @apply flex items-center gap-1.5 py-10;
+        @apply flex items-center gap-1.5 py-4;
       }
     }
   }

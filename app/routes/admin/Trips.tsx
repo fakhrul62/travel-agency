@@ -37,15 +37,15 @@ const Trips = ({ loaderData }: Route.ComponentProps) => {
         <title>AI Trips | ToureChol</title>
         <meta name="description" content="Manage and explore AI-generated trips on ToureChol." />
       </Helmet>
-      <main className="wrapper">
+      <main className="wrapper w-full px-2 sm:px-4 md:px-0">
         <Header
           title={`AI Trips`}
           subtitle={`Manage Created Trips`}
           ctaText="Create Trip"
           ctaLink={`/trips/create`}
         />
-        <section className="py-6">
-          <div className="trip-grid">
+        <section className="py-4 sm:py-6">
+          <div className="trip-grid grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
             {allTrips.map((trip) => (
               <div  key={trip._id} className="trip-card">
                 <TripCard

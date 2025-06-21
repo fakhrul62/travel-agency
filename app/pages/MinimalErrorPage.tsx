@@ -32,15 +32,16 @@ const MinimalErrorPage: React.FC = () => {
       </Helmet>
       <div
         ref={containerRef}
-        className="min-h-screen w-full flex flex-col items-center justify-center bg-gradient-to-br from-slate-900 to-blue-900 px-4"
+        className="min-h-screen w-full flex flex-col items-center justify-center bg-[#222] px-3 sm:px-4"
       >
         <h1
           ref={textRef}
-          className="text-6xl md:text-7xl font-extrabold text-white mb-4 tracking-widest select-none drop-shadow-lg"
+          className="text-5xl md:text-6xl font-extrabold text-white mb-4 tracking-widest select-none drop-shadow-lg"
+          style={{ fontFamily: 'League Gothic, Impact, Arial Narrow, Arial, sans-serif' }}
         >
           404
         </h1>
-        <p className="text-lg md:text-xl text-slate-200 mb-8 text-center max-w-md">
+        <p className="text-base md:text-lg text-gray-200 mb-8 text-center max-w-md">
           Sorry, the page you are looking for does not exist or an error has occurred.
         </p>
         <Link

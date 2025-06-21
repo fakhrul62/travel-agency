@@ -62,16 +62,16 @@ const TripDetails = ({ loaderData }: Route.ComponentProps) => {
   }, []);
 
   return (
-    <main className="travel-detail wrapper">
+    <main className="travel-detail wrapper w-full px-2 sm:px-4 md:px-0">
       <Header
         title="Trip Details"
         subtitle="View and Edit AI-Genretaed travel plans"
       ></Header>
 
-      <section className="container wrapper-md">
+      <section className="container wrapper-md px-0 sm:px-2 md:px-0">
         <header>
           <h1 className="p-40-semibold text-dark-100">{name}</h1>
-          <div className="flex items-center gap-5">
+          <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-5">
             <InfoPill
               text={`${duration} Day Plan`}
               image="/assets/icons/calendar.svg"

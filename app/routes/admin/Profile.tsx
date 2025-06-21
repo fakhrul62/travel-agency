@@ -88,7 +88,7 @@ const AdminProfile: React.FC = () => {
         <meta name="description" content="View and manage admin profile on ToureChol." />
       </Helmet>
       <div className="w-full h-full">
-        <main className="max-w-6xl mx-auto mt-12 bg-gradient-to-br from-blue-100 via-white to-blue-50 rounded-3xl shadow-2xl flex flex-col md:flex-row items-stretch gap-0 overflow-hidden border border-blue-200">
+        <main ref={mainRef} className="max-w-4xl mx-auto mt-6 md:mt-12 bg-white rounded-3xl shadow-2xl flex flex-col items-center gap-0 overflow-hidden border border-[#d1d5db] w-full px-2 sm:px-4 md:px-0">
           {/* Sidebar */}
           <section ref={sidebarRef} className="flex flex-col items-center justify-center bg-gradient-to-b from-blue-800 to-blue-500 text-white p-12 md:w-1/3 w-full h-full gap-6 relative">
             <div className="absolute top-6 right-8 flex gap-2">
@@ -143,7 +143,7 @@ const AdminProfile: React.FC = () => {
               })}
             </div>
             {/* Admin Stats */}
-            <div ref={statsRef} className="mt-10">
+            <div ref={statsRef} className="w-full px-3 md:px-10 pb-6 md:pb-8">
               <h3 className="text-2xl font-bold text-blue-800 mb-4 tracking-wide">Admin Summary</h3>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {adminStats.map(stat => (

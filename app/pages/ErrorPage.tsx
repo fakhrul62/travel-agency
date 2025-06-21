@@ -35,12 +35,12 @@ const ErrorPage: React.FC<CubesProps> = ({
   easing = "power3.out",
   duration = { enter: 0.3, leave: 0.6 },
   cellGap,
-  borderStyle = "1px solid #fff",
-  faceColor = "#106de6",
+  borderStyle = "1px solid #222",
+  faceColor = "#fff",
   shadow = false,
   autoAnimate = true,
   rippleOnClick = true,
-  rippleColor = "#333333",
+  rippleColor = "#106de6",
   rippleSpeed = 2,
 }) => {
   const sceneRef = useRef<HTMLDivElement | null>(null);
@@ -271,10 +271,10 @@ const ErrorPage: React.FC<CubesProps> = ({
         <meta name="description" content="An error occurred on ToureChol." />
       </Helmet>
       <div
-        className="relative w-full h-full"
+        className="relative w-full h-full min-h-screen bg-[#222] flex items-center justify-center"
         style={wrapperStyle}
       >
-        <div ref={sceneRef} className="grid w-full h-full" style={sceneStyle}>
+        <div ref={sceneRef} className="grid w-full h-full max-w-3xl max-h-[80vh] mx-auto" style={sceneStyle}>
           {cells.map((_, r) =>
             cells.map((__, c) => (
               <div

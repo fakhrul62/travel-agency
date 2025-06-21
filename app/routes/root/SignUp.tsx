@@ -147,12 +147,12 @@ const SignUp: React.FC = () => {
         <title>Sign Up / Sign In | ToureChol</title>
         <meta name="description" content="Sign up or sign in to ToureChol to manage your travel plans." />
       </Helmet>
-      <header className="w-full max-w-7xl mx-auto flex items-center justify-between py-6">
+      <header className="w-full max-w-7xl mx-auto flex items-center justify-between py-6 px-4">
         <Link className="flex items-center gap-2" to="/">
           <img
             src="/assets/icons/logo.svg"
             alt="ToureChol Logo"
-            className="w-10 h-10 bg-indigo-500 rounded-full p-1 shadow-md"
+            className="w-10 h-10 bg-blue-500 rounded-full p-1 shadow-md"
           />
           <span className="text-2xl font-bold text-gray-900 tracking-tight">
             ToureChol
@@ -160,19 +160,19 @@ const SignUp: React.FC = () => {
         </Link>
         <nav className="hidden md:flex gap-8 text-base font-medium">
           <Link
-            className="text-gray-500 hover:text-indigo-600 transition-colors"
+            className="text-gray-500 hover:text-blue-600 transition-colors"
             to="/"
           >
             Home
           </Link>
           <Link
-            className="text-gray-500 hover:text-indigo-600 transition-colors"
+            className="text-gray-500 hover:text-blue-600 transition-colors"
             to="/sign-up"
           >
             Sign Up
           </Link>
           <Link
-            className="text-gray-500 hover:text-indigo-600 transition-colors"
+            className="text-gray-500 hover:text-blue-600 transition-colors"
             to="/dashboard"
           >
             Dashboard
@@ -180,9 +180,9 @@ const SignUp: React.FC = () => {
         </nav>
         <Link
           to="/sign-up"
-          className="inline-flex items-center bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-5 py-2 rounded-lg shadow transition-colors text-base"
+          className="inline-flex items-center bg-blue-600 hover:bg-blue-700 text-white font-semibold px-5 py-2 rounded-lg shadow transition-colors text-base"
         >
-          Get Started
+          Log in
           <svg
             fill="none"
             stroke="currentColor"
@@ -196,7 +196,8 @@ const SignUp: React.FC = () => {
           </svg>
         </Link>
       </header>
-      <div className="signup-fullscreen-wrapper">
+      {/* Desktop Forms (hidden on mobile and tablet, visible only on desktop) */}
+      <div className="signup-fullscreen-wrapper !hidden lg:!flex lg:items-center lg:justify-center lg:min-h-screen">
         <div className={`signup-container ${isRightActive ? "signup-right-panel-active" : ""}`}>
           {/* Sign Up Form */}
           <div className="signup-container__form signup-container--signup">
@@ -289,6 +290,115 @@ const SignUp: React.FC = () => {
               </div>
             </div>
           </div>
+        </div>
+      </div>
+
+      {/* Mobile/Tablet Forms (vertical switch, hidden on desktop) */}
+      <div className="flex flex-col items-center justify-center w-full min-h-screen bg-white px-4 py-8 lg:hidden">
+        <div className="w-full max-w-sm mx-auto bg-white border border-gray-200 rounded-lg shadow p-6">
+          <div className="flex w-full mb-6">
+            <button
+              className={`flex-1 py-2 text-base font-semibold rounded-l-lg border-r border-gray-200 transition-colors ${!isRightActive ? 'bg-blue-600 text-white' : 'bg-white border text-gray-700'}`}
+              onClick={() => setIsRightActive(false)}
+              type="button"
+            >
+              Sign In
+            </button>
+            <button
+              className={`flex-1 py-2 text-base font-semibold rounded-r-lg transition-colors ${isRightActive ? 'bg-blue-600 text-white' : 'bg-white border text-gray-700'}`}
+              onClick={() => setIsRightActive(true)}
+              type="button"
+            >
+              Sign Up
+            </button>
+          </div>
+          {/* Mobile Sign Up Form */}
+          {isRightActive && (
+            <form className="flex flex-col gap-4" onSubmit={handleSignUp}>
+              <h2 className="text-xl font-bold text-[#222] mb-2">Sign Up</h2>
+              <input
+                name="name"
+                type="text"
+                placeholder="Name"
+                className="border border-gray-300 rounded px-3 py-2 text-base focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white text-[#222]"
+                required
+              />
+              <input
+                name="email"
+                type="email"
+                placeholder="Email"
+                className="border border-gray-300 rounded px-3 py-2 text-base focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white text-[#222]"
+                required
+              />
+              <input
+                name="password"
+                type="password"
+                placeholder="Password"
+                className="border border-gray-300 rounded px-3 py-2 text-base focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white text-[#222]"
+                required
+              />
+              <button
+                className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-lg transition-colors mt-2"
+                type="submit"
+                disabled={signUpLoading}
+              >
+                {signUpLoading ? (
+                  <span className="flex items-center justify-center gap-2">
+                    <svg className="animate-spin" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="10" stroke="#6366f1" strokeWidth="4" strokeDasharray="60" strokeDashoffset="20"/></svg>
+                    Signing Up...
+                  </span>
+                ) : (
+                  "Sign Up"
+                )}
+              </button>
+            </form>
+          )}
+          {/* Mobile Sign In Form */}
+          {!isRightActive && (
+            <form className="flex flex-col gap-4" onSubmit={handleSignIn}>
+              <h2 className="text-xl font-bold text-[#222] mb-2">Sign In</h2>
+              <input
+                name="email"
+                type="email"
+                placeholder="Email"
+                className="border border-gray-300 rounded px-3 py-2 text-base focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white text-[#222]"
+                required
+              />
+              <input
+                name="password"
+                type="password"
+                placeholder="Password"
+                className="border border-gray-300 rounded px-3 py-2 text-base focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white text-[#222]"
+                required
+              />
+              <button
+                className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-lg transition-colors mt-2"
+                type="submit"
+                disabled={signInLoading}
+              >
+                {signInLoading ? (
+                  <span className="flex items-center justify-center gap-2">
+                    <svg className="animate-spin" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="10" stroke="#fff" strokeWidth="4" strokeDasharray="60" strokeDashoffset="20"/></svg>
+                    Signing In...
+                  </span>
+                ) : (
+                  "Sign In"
+                )}
+              </button>
+              <button
+                type="button"
+                className="w-full bg-blue-600 text-white font-semibold py-2 rounded-lg flex items-center justify-center gap-2 border border-gray-300 mt-1"
+                onClick={handleGoogleSignIn}
+              >
+                <img
+                  src="/assets/icons/google.svg"
+                  alt="Google"
+                  className="w-5 h-5"
+                />
+                Google
+              </button>
+            </form>
+          )}
         </div>
       </div>
     </>

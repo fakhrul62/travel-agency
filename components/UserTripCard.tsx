@@ -20,22 +20,36 @@ const UserTripCard = ({
           ? `/travel/${id}`
           : `/trip/${id}`
       }
-      className="trip-card"
+      className="trip-card bg-white rounded-xl shadow flex flex-col overflow-hidden p-0 w-full max-w-full min-w-0 transition hover:shadow-lg focus:outline-none"
     >
-      <img src={imageUrls} alt={name} />
-      <article>
-        <h2>{name}</h2>
-        <figure>
+      <img
+        src={imageUrls}
+        alt={name}
+        className="w-full h-40 sm:h-48 md:h-56 object-cover object-center"
+      />
+      <article className="px-4 pt-4">
+        <h2
+          className="text-lg md:text-xl font-semibold mb-1 truncate"
+          style={{
+            fontFamily:
+              "League Gothic, Impact, Arial Narrow, Arial, sans-serif",
+          }}
+        >
+          {name}
+        </h2>
+        <figure className="flex items-center gap-1 text-sm text-gray-500 mb-2">
           <img
             src="/assets/icons/location-mark.svg"
             alt="location"
-            className="size-4"
+            className="w-4 h-4"
           />
-          <figcaption>{location}</figcaption>
+          <figcaption className="truncate max-w-[80%]">{location}</figcaption>
         </figure>
       </article>
-      <article className="tripCard-pill">{estimatedPrice}</article>
-      <div className="flex gap-2 mt-4 px-4 pb-2">
+      <article className="tripCard-pill absolute top-3 right-3 bg-[#222] text-white text-xs md:text-sm font-bold px-3 py-1 rounded-full shadow">
+        {estimatedPrice}
+      </article>
+      <div className="flex flex-col sm:flex-row gap-2 mt-4 px-4 pb-2">
         <button
           type="button"
           className={cn(

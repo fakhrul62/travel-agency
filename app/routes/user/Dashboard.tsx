@@ -77,7 +77,7 @@ const UserDashboard: React.FC = () => {
         <meta name="description" content="Your personal dashboard for trips and account info." />
         
       </Helmet>
-      <div className="p-0 md:p-8 bg-white min-h-screen">
+      <div className="p-2 sm:p-4 md:p-8 bg-white min-h-screen w-full">
         {/* Welcome */}
         <div ref={welcomeRef} className="mb-8">
           <h1
@@ -89,7 +89,7 @@ const UserDashboard: React.FC = () => {
           <p className="text-lg font-medium" style={{ color: '#444' }}>Ready for your next adventure?</p>
         </div>
         {/* Stats */}
-        <div ref={statsRef} className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <div ref={statsRef} className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6 mb-8">
           {stats.map(stat => (
             <div key={stat.label} className="flex flex-col items-center gap-2 bg-white rounded-xl p-6 shadow border border-[#eee] hover:scale-105 transition-transform duration-200">
               <div className="text-3xl" style={{ color: '#222' }}>{stat.icon}</div>
@@ -99,20 +99,17 @@ const UserDashboard: React.FC = () => {
           ))}
         </div>
         {/* Trips */}
-        <div ref={tripsRef} className="mb-8">
-          <h2 className="text-xl font-bold mb-4" style={{ color: '#222' }}>Your Trips</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {trips.map(trip => (
-              <div key={trip.name} className="bg-white rounded-xl shadow p-6 flex flex-col gap-2 border border-[#eee] hover:bg-[#fafafa] transition-colors duration-200">
-                <span className="text-lg font-bold" style={{ color: '#222' }}>{trip.name}</span>
-                <span className="text-xs" style={{ color: '#888' }}>{trip.date}</span>
-                <span className={`text-xs font-semibold rounded px-2 py-1 ${trip.status === "Upcoming" ? "bg-[#222] text-[#fff]" : "bg-[#eee] text-[#222]"}`}>{trip.status}</span>
-              </div>
-            ))}
-          </div>
+        <div ref={tripsRef} className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mt-6">
+          {trips.map(trip => (
+            <div key={trip.name} className="bg-white rounded-xl shadow p-6 flex flex-col gap-2 border border-[#eee] hover:bg-[#fafafa] transition-colors duration-200">
+              <span className="text-lg font-bold" style={{ color: '#222' }}>{trip.name}</span>
+              <span className="text-xs" style={{ color: '#888' }}>{trip.date}</span>
+              <span className={`text-xs font-semibold rounded px-2 py-1 ${trip.status === "Upcoming" ? "bg-[#222] text-[#fff]" : "bg-[#eee] text-[#222]"}`}>{trip.status}</span>
+            </div>
+          ))}
         </div>
         {/* Notifications */}
-        <div ref={notificationsRef} className="mb-8">
+        <div ref={notificationsRef} className="flex flex-col gap-2 mt-6">
           <h2 className="text-xl font-bold mb-4" style={{ color: '#222' }}>Notifications</h2>
           <div className="flex flex-col gap-2">
             {notifications.map((n, i) => (
@@ -124,9 +121,9 @@ const UserDashboard: React.FC = () => {
           </div>
         </div>
         {/* Rewards */}
-        <div ref={rewardsRef} className="mb-8">
+        <div ref={rewardsRef} className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6">
           <h2 className="text-xl font-bold mb-4" style={{ color: '#222' }}>Rewards</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6">
             {rewards.map(r => (
               <div key={r.label} className="flex items-center gap-3 bg-white rounded-xl p-6 shadow border border-[#eee] hover:scale-105 transition-transform duration-200">
                 <span className="text-2xl" style={{ color: '#222' }}>{r.icon}</span>

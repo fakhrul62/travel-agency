@@ -24,24 +24,24 @@ const MyTrips: React.FC = () => {
         <title>My Trips | ToureChol</title>
         <meta name="description" content="View and manage your trips on ToureChol." />
       </Helmet>
-      <div className="p-0 md:p-8 bg-white min-h-screen">
+      <div className="p-2 sm:p-4 md:p-8 bg-white min-h-screen w-full">
         <h1
-          className="text-4xl text-[#222] mb-2"
+          className="text-3xl md:text-4xl text-[#222] mb-2"
           style={{ fontFamily: 'League Gothic, Impact, Arial Narrow, Arial, sans-serif', letterSpacing: '0.01em' }}
         >
           My Trips
         </h1>
-        <p className="text-lg font-medium mb-8" style={{ color: '#444' }}>Trips created by you</p>
+        <p className="text-base md:text-lg font-medium mb-6 md:mb-8" style={{ color: '#444' }}>Trips created by you</p>
         {isProfileLoading || isLoading ? (
-          <div className="flex justify-center items-center min-h-[200px]">
-            <img src="/assets/icons/loader.svg" alt="Loading" className="w-10 h-10 animate-spin" />
+          <div className="flex justify-center items-center min-h-[120px] md:min-h-[200px]">
+            <img src="/assets/icons/loader.svg" alt="Loading" className="w-8 h-8 md:w-10 md:h-10 animate-spin" />
           </div>
         ) : trips.length === 0 ? (
-          <div className="bg-white rounded-xl shadow p-8 border border-[#eee] text-center">
+          <div className="bg-white rounded-xl shadow p-6 md:p-8 border border-[#eee] text-center">
             <p className="text-[#888]">You have no trips yet. Start planning your next adventure!</p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
             {trips.map((trip: any) => (
               <UserTripCard
                 key={trip._id || trip.id || trip.name}
