@@ -15,10 +15,10 @@ const Header = ({ title, subtitle, ctaText, ctaLink }: Props) => {
       <article>
         <h1
           className={cn(
-            "text-dark-100",
+            "text-dark-100 font-league uppercase",
             location.pathname === "/dashboard"
-              ? "text-xl md:text-3xl font-bold"
-              : "text-lg md:text-xl font-semibold"
+              ? "text-xl md:text-3xl"
+              : "text-lg md:text-xl"
           )}
         >
           {title}
