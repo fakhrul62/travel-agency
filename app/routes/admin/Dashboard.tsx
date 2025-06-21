@@ -1,5 +1,5 @@
 // Dashboard.tsx
-import { useLoaderData, Navigate } from "react-router";
+import { useLoaderData, Navigate, useNavigation } from "react-router";
 import { Header, StatsCard, TripCard } from "components";
 import useAdmin from "src/hook/useAdmin";
 import useAuth from "src/hook/useAuth";
@@ -38,6 +38,8 @@ export const loader = async () => {
 };
 
 const Dashboard = () => {
+  const navigation = useNavigation && useNavigation();
+  const isLoading = navigation && navigation.state === "loading";
   const loaderData = useLoaderData() as Awaited<ReturnType<typeof loader>>;
   // const [isAdmin, isAdminLoading] = useAdmin();
   const { user } = useAuth();
@@ -96,6 +98,14 @@ const Dashboard = () => {
   const allTrips = Array.isArray(loaderData?.allTrips)
     ? loaderData.allTrips
     : [];
+
+  if (isLoading) {
+    return (
+      <div className="absolute inset-0 flex justify-center items-center bg-white bg-opacity-70 z-50">
+        <PageLoader />
+      </div>
+    );
+  }
 
   // if (isAdminLoading || typeof user === 'undefined') {
   if (typeof user === 'undefined') {

@@ -89,7 +89,7 @@ const AllUsers = () => {
                       />
                       <h3
                         className={cn(
-                          "font-inter text-xs font-medium",
+                          "font-figtree text-xs font-medium",
                           user.role === "user"
                             ? "text-success-700"
                             : "text-gray-500"

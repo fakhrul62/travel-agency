@@ -44,6 +44,6 @@ export const userSidebarItems = [
     id: 4,
     icon: "/assets/icons/users.svg",
     label: "Profile",
-    href: "/profile",
+    href: "/user/profile",
   },
 ];

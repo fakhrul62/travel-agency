@@ -13,14 +13,14 @@ type Params = {
   "/all-users": {};
   "/all-trips": {};
   "/trips/create": {};
-  "/all-trips/:tripId": {
+  "/trip/:tripId": {
     "tripId": string;
   };
-  "/profile": {};
+  "/admin/profile": {};
   "/user-dashboard": {};
   "/my-trips": {};
   "/ai-trip": {};
-  "/profile": {};
+  "/user/profile": {};
   "/sign-up": {};
   "/*": {
     "*": string;

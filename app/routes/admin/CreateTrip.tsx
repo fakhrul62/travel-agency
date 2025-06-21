@@ -126,7 +126,7 @@ const CreateTrip = ({ loaderData }: Route.ComponentProps) => {
       console.log("✅ Trip created:", response);
 
       if (response?.insertedId) {
-        navigate(`/all-trips/${response.insertedId}`);
+        navigate(`/trip/${response.insertedId}`);
       } else {
         throw new Error("Trip ID missing in response.");
       }

@@ -1,5 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=League+Gothic&display=swap');
 @import "tailwindcss";
 @import "tw-animate-css";
 @plugin "daisyui";
@@ -9,7 +9,7 @@
 
 @theme {
   --font-figtree: "Figtree", sans-serif;
-  --font-inter: "Inter", sans-serif;
+  --font-league: "League Gothic", sans-serif;
   --color-dark-100: #1f1f36;
   --color-dark-200: #141627;
   --color-dark-300: #101828;
@@ -461,7 +461,7 @@
     @apply grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-7;
   }
   .nav-item {
-    @apply flex items-center text-xs md:text-lg font-normal cursor-pointer gap-2.5 py-[14px] px-3.5 rounded-lg text-dark-200 hover:bg-primary-100 hover:text-white;
+    @apply flex items-center text-xs md:text-base font-normal cursor-pointer gap-2.5 py-[14px] px-3.5 rounded-lg text-dark-200 hover:bg-primary-100 hover:text-white;
   }
   .combo-box {
     @apply !p-3.5 !border w-full !border-light-400 !rounded-xl !text-base !text-dark-300 !font-normal;

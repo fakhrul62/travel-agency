@@ -8,14 +8,14 @@ export default [
     route('all-users', 'routes/admin/AllUsers.tsx'),
     route('all-trips', 'routes/admin/Trips.tsx'),
     route('trips/create', 'routes/admin/CreateTrip.tsx'),
-    route('all-trips/:tripId', 'routes/admin/TripDetails.tsx'),
-    route('profile', 'routes/admin/Profile.tsx'), // Added profile route here
+    route('trip/:tripId', 'routes/admin/TripDetails.tsx'),
+    route('admin/profile', 'routes/admin/Profile.tsx'), // Added profile route here
   ]),
   layout('routes/user/UserLayout.tsx', [
     route('user-dashboard', 'routes/user/Dashboard.tsx'),
     route('my-trips', 'pages/MyTrips.tsx'),
     route('ai-trip', 'pages/AiTrip.tsx'),
-    route('profile', 'pages/Profile.tsx'),
+    route('user/profile', 'pages/Profile.tsx'),
   ]),
   route('sign-up', 'routes/root/SignUp.tsx'),
   route('', 'pages/Home.tsx'),

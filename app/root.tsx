@@ -12,21 +12,9 @@ import "./app.css";// Add this import
 
 // Import React Query components
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { useNavigation } from "react-router";
-
-export const links: Route.LinksFunction = () => [
-  { rel: "preconnect", href: "https://fonts.googleapis.com" },
-  {
-    rel: "preconnect",
-    href: "https://fonts.gstatic.com",
-    crossOrigin: "anonymous",
-  },
-  {
-    rel: "stylesheet",
-    href: "https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap",
-  },
-];
 import AuthProvider from "../src/provider/AuthProvider";
+import { Helmet } from "react-helmet";
+
 
 // Create a client
 const queryClient = new QueryClient();
@@ -40,6 +28,10 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Meta />
         <link rel="icon" type="image/svg+xml" href="/assets/icons/logo.svg" />
         <Links />
+        <Helmet>
+          <title>User Dashboard | ToureChol</title>
+          <meta name="description" content="Your personal dashboard for trips and account info." />
+        </Helmet>
       </head>
       <body>
         <QueryClientProvider client={queryClient}>
@@ -55,11 +47,8 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
-  const navigation = useNavigation && useNavigation();
-  const isLoading = navigation && navigation.state === "loading";
   return (
     <>
-      {/* Remove global PageLoader. Only use local loaders in pages/components. */}
       <Outlet />
     </>
   );
