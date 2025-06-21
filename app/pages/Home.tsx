@@ -52,7 +52,7 @@ const Home: React.FC = () => {
             <img
               src="/assets/icons/logo.svg"
               alt="ToureChol Logo"
-              className="w-10 h-10 bg-indigo-500 rounded-full p-1 shadow-md"
+              className="w-10 h-10 bg-blue-600 rounded-full p-1 shadow-md"
             />
             <span className="text-2xl font-bold text-gray-900 tracking-tight">
               ToureChol
@@ -60,19 +60,19 @@ const Home: React.FC = () => {
           </Link>
           <nav className="hidden md:flex gap-8 text-base font-medium">
             <Link
-              className="text-gray-500 hover:text-indigo-600 transition-colors"
+              className="text-gray-500 hover:text-blue-600 transition-colors"
               to="/"
             >
               Home
             </Link>
             <Link
-              className="text-gray-500 hover:text-indigo-600 transition-colors"
+              className="text-gray-500 hover:text-blue-600 transition-colors"
               to="/sign-up"
             >
               Sign Up
             </Link>
             <Link
-              className="text-gray-500 hover:text-indigo-600 transition-colors"
+              className="text-gray-500 hover:text-blue-600 transition-colors"
               to="/dashboard"
             >
               Dashboard
@@ -80,9 +80,9 @@ const Home: React.FC = () => {
           </nav>
           <Link
             to="/sign-up"
-            className="inline-flex items-center bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-5 py-2 rounded-lg shadow transition-colors text-base"
+            className="inline-flex items-center bg-blue-600 hover:bg-blue-700 text-white font-semibold px-5 py-2 rounded-lg shadow transition-colors text-base"
           >
-            Get Started
+            Log in
             <svg
               fill="none"
               stroke="currentColor"
@@ -104,7 +104,7 @@ const Home: React.FC = () => {
               className="text-4xl sm:text-5xl font-bold text-gray-900 mb-6 leading-tight"
             >
               Discover Your Next Adventure with{" "}
-              <span className="text-indigo-600">ToureChol</span>
+              <span className="text-blue-600">ToureChol</span>
             </h1>
             <p
               ref={subtextRef}
@@ -117,13 +117,13 @@ const Home: React.FC = () => {
             <div ref={ctaRef} className="flex gap-4">
               <Link
                 to="/sign-up"
-                className="inline-flex items-center text-white bg-indigo-600 hover:bg-indigo-700 font-semibold px-6 py-2 rounded-lg shadow transition-colors text-lg"
+                className="inline-flex items-center text-white bg-blue-600 hover:bg-blue-700 font-semibold px-6 py-2 rounded-lg shadow transition-colors text-lg"
               >
                 Get Started
               </Link>
               <Link
                 to="/dashboard"
-                className="inline-flex items-center border border-zinc-200 text-indigo-600 bg-white hover:bg-gray-200 hover:text-indigo-800 font-semibold px-6 py-2 rounded-lg transition-colors text-lg"
+                className="inline-flex items-center border border-zinc-200 text-blue-600 bg-white hover:bg-gray-200 hover:text-blue-800 font-semibold px-6 py-2 rounded-lg transition-colors text-lg"
               >
                 Dashboard
               </Link>
@@ -132,9 +132,9 @@ const Home: React.FC = () => {
           <div className="flex-1 flex justify-center items-center">
             <img
               ref={heroImgRef}
-              className="object-cover object-center rounded-xl shadow-2xl w-full max-w-md"
+              className="object-cover object-center  w-full max-w-md"
               alt="Travel Hero"
-              src="/assets/images/hero-img.png"
+              src="/assets/images/hero.svg"
             />
           </div>
         </main>
