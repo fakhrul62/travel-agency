@@ -154,7 +154,7 @@ const Dashboard = () => {
           </div>
         </section>
         <section className="container px-0 sm:px-2 md:px-0 mt-4 md:mt-0" ref={tripsRef}>
-          <h1 className="text-lg md:text-xl font-semibold text-[#222] mb-2 md:mb-4" style={{ fontFamily: 'League Gothic, Impact, Arial Narrow, Arial, sans-serif' }}>Created Trips</h1>
+          <h1 className="text-lg md:text-2xl font-light text-[#222] mb-2 md:mb-4" style={{ fontFamily: 'League Gothic, Impact, Arial Narrow, Arial, sans-serif' }}>Created Trips</h1>
           <div className="trip-grid grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
             {allTrips.slice(0, 3).map((trip: any) => (
               <TripCard
@@ -172,11 +172,11 @@ const Dashboard = () => {
         </section>
         <section className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-5 mt-4 md:mt-0" ref={chartsRef}>
           <div className="p-3 sm:p-4 md:p-6 flex flex-col gap-4 md:gap-6 bg-white shadow-400 rounded-2xl md:rounded-20 text-[#222]">
-            <h1 className="text-lg md:text-xl font-semibold" style={{ fontFamily: 'League Gothic, Impact, Arial Narrow, Arial, sans-serif' }}>User Growth</h1>
+            <h1 className="text-lg md:text-2xl font-light" style={{ fontFamily: 'League Gothic, Impact, Arial Narrow, Arial, sans-serif' }}>User Growth</h1>
             <UserGrowthChart data={loaderData.userGrowthPerMonth || []} />
           </div>
           <div className="p-3 sm:p-4 md:p-6 flex flex-col gap-4 md:gap-6 bg-white shadow-400 rounded-2xl md:rounded-20 text-[#222]">
-            <h1 className="text-lg md:text-xl font-semibold" style={{ fontFamily: 'League Gothic, Impact, Arial Narrow, Arial, sans-serif' }}>
+            <h1 className="text-lg md:text-2xl font-light" style={{ fontFamily: 'League Gothic, Impact, Arial Narrow, Arial, sans-serif' }}>
               Trending Travel Styles
             </h1>
             <TripsByStyleChart data={loaderData.tripsByTravelStyle || []} />

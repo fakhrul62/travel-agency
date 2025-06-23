@@ -1,6 +1,6 @@
 import type { ActionFunctionArgs } from "react-router";
 import { GoogleGenerativeAI } from "@google/generative-ai";
-import axios from "axios";
+import useAxiosPublic from "src/hook/useAxiosPublic";
 
 // 🔧 Parser for Gemini's Markdown-wrapped JSON
 function parseMarkdownToJson(markdown: string): any {
@@ -111,13 +111,13 @@ NO markdown, no explanation. Return only pure JSON.`;
 };
 
 export const generateTrip = async (tripData: any) => {
-
   const { country, duration, travelStyle, interest, budget, groupType, user } =
     tripData;
 
   const genAI = new GoogleGenerativeAI(import.meta.env.VITE_GEMINI_API_KEY!);
   const unsplashApiKey = import.meta.env.VITE_UNSPLASH_ACCESS_KEY!;
   const API_URL = import.meta.env.VITE_API_URL;
+  const axiosPublic = useAxiosPublic();
 
   try {
     const prompt = `Generate a ${duration}-day travel itinerary for ${country} based on the following user information:
@@ -210,7 +210,7 @@ export const generateTrip = async (tripData: any) => {
 
     console.log("🧾 Final Trip Payload:", completeTripData);
 
-    const response = await axios.post(`${API_URL}/trips`, completeTripData);
+    const response = await axiosPublic.post(`${API_URL}/trips`, completeTripData);
     console.log("✅ Trip POST Response:", response.data);
     return response.data;
   } catch (error) {

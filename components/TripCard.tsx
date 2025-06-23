@@ -26,11 +26,7 @@ const TripCard = ({
       />
       <article className="px-4 pt-4">
         <h2
-          className="text-lg md:text-xl font-semibold mb-1 truncate"
-          style={{
-            fontFamily:
-              "League Gothic, Impact, Arial Narrow, Arial, sans-serif",
-          }}
+          className="text-lg md:text-xl font-figtree font-semibold mb-1 truncate"
         >
           {name}
         </h2>
