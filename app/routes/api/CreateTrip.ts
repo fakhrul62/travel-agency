@@ -210,7 +210,7 @@ export const generateTrip = async (tripData: any) => {
 
     console.log("🧾 Final Trip Payload:", completeTripData);
 
-    const response = await axiosPublic.post(`${API_URL}/trips`, completeTripData);
+    const response = await axiosPublic.post(`/trips`, completeTripData);
     console.log("✅ Trip POST Response:", response.data);
     return response.data;
   } catch (error) {
